@@ -10,3 +10,6 @@
     display: flex;
     justify-content: space-between;
 }
+.search{
+    padding: 20px;
+}

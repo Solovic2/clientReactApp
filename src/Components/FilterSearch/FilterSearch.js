@@ -4,9 +4,14 @@ const FilterSearch = () => {
   const [values, setValues] = useState([])
   const [filterData, setFilterData] = useState([])
   const [eventAction, setEventAction] = useState()
-  // const folderPath = "E:\\Islam\\temp"
 
   useEffect(() => {
+
+    fetch("http://localhost:9000/")
+    .then(res => res.json())
+    .then(data => setValues(data));
+
+
     const ws = new WebSocket('ws://localhost:8000');
 
     ws.addEventListener('open', () => {
@@ -19,15 +24,14 @@ const FilterSearch = () => {
       if (message.type === 'add') {
         setValues((prevValues) => [...prevValues, message.data]); // add the new data to the previous values
       } else if (message.type === 'delete') {
-        console.log(message)
+        
+        setValues((prevValues) => prevValues.filter(data => data.id !== message.data.id));
       } else {
         console.warn('Received unknown message type:', message.type);
       }
     });
 
-    fetch("http://localhost:9000/")
-      .then(res => res.json())
-      .then(data => setValues(data));
+   
 
     return () => {
       ws.close();
