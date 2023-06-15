@@ -3,6 +3,7 @@ import "./FilterSearch.css"
 const FilterSearch = () => {
   const [values, setValues] = useState([])
   const [filterData, setFilterData] = useState([])
+  const [eventAction, setEventAction] = useState()
   // const folderPath = "E:\\Islam\\temp"
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const FilterSearch = () => {
       const message = JSON.parse(event.data);
       
       if (message.type === 'add') {
-        console.log(message)
+        setValues((prevValues) => [...prevValues, message.data]); // add the new data to the previous values
       } else if (message.type === 'delete') {
         console.log(message)
       } else {
@@ -31,11 +32,16 @@ const FilterSearch = () => {
     return () => {
       ws.close();
     };
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const filter = values.filter(data => data.path.toLowerCase().includes(eventAction))
+    setFilterData(filter)
+  },[values, eventAction])
 
   const handleChange = (event) => {
-    console.log(values)
     const filter = values.filter(data => data.path.toLowerCase().includes(event.target.value))
+    setEventAction(event.target.value);
     setFilterData(filter)
   };
 
