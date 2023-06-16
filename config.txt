@@ -1,0 +1,12 @@
+
+
+npm install -g http-server
+cd C:/Users/islam/Desktop/temp/
+http-server -p 8000
+
+// Restrictions 
+Set-ExecutionPolicy RemoteSigned 
+and after press y run the http-server -p 8000 and return  Set-ExecutionPolicy Restricted 
+
+
+npm install react-bootstrap bootstrap

@@ -1,8 +1,13 @@
 import React from 'react'
 
 const FilterBox = (props) => {
+
   return (
-    <div className='body'>{props.children}</div>
+    <>
+      <div className="container">
+          {props.children}
+      </div>
+    </>
   )
 }
 
