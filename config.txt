@@ -2,7 +2,8 @@
 
 npm install -g http-server
 cd C:/Users/islam/Desktop/temp/
-http-server -p 8000
+E:\Islam\React\clientReactApp\node_modules\.bin\http-server -p 8000
+http-server -p 8000 --cors
 
 // Restrictions 
 Set-ExecutionPolicy RemoteSigned 

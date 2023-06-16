@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect,  useRef } from 'react';
 import './FilterCards.css';
 
 function FilterCards(props) {
@@ -20,21 +20,46 @@ function FilterCards(props) {
     };
   }, []);
 
+ const handleClick = async (path) => {
+
+    const fileUrl = await getFileFromServer(`http://localhost:8081/${path}`);
+    if (fileUrl !== null) {
+      const popup = window.open('blank', '_blank', 'width=600,height=400');
+      popup.document.write(`<pre>${fileUrl}</pre>`);
+    } else {
+      console.error('Error getting file content');
+    }
+  };
+
+  const getFileFromServer = async (fileUrl) => {
+    try {
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.status}`);
+      }
+      const text = await response.text();
+      return text;
+    } catch (error) {
+      console.error('Error fetching file:', error);
+      return null;
+    }
+  };
+
   return (
     <div className="card-container hide-scrollbar" ref={cardContainerRef}>
       {
         props.data?.map((element, index) => {    
             let audioElement = null;
-            if (element.fileType === 'wav') {
-              let path = '';
+            let path = '';
               if(element.mobile !== null &&  element.mobile !== ''){
                 path = `${element.mobile}-${element.fileDate}.${element.fileType}`
               }else{
                 path = `${element.fileDate}.${element.fileType}`
               }
+            if (element.fileType === 'wav') { 
               audioElement = <audio controls src={`http://localhost:8081/${path}`} />
             }else{
-              audioElement = <div>text</div>
+              audioElement = <div><button className="btn btn-primary"onClick={() => handleClick(path)}>قراءة الشكوى</button></div>
             }
           
             return (   
