@@ -44,7 +44,23 @@ function FilterCards(props) {
       return null;
     }
   };
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:9000/delete-complain/${id}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete card');
+      }
 
+      
+      props.setValuesData(props.data.filter(card => card.id !== id));
+      // Remove the deleted card from the state
+
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    }
+  };
   return (
     <div className="card-container hide-scrollbar" ref={cardContainerRef}>
       {
@@ -68,6 +84,9 @@ function FilterCards(props) {
                 <div className="file-date">{element.fileDate}</div>
                 <div className="audio-element">
                   {audioElement}
+                </div>
+                <div className="deleteBtn">
+                  <button className="btn btn-danger" onClick={() => handleDelete(element.id)}><i className="fa-solid fa-trash"></i></button>
                 </div>
               </div>
             )  

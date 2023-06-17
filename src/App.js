@@ -56,11 +56,14 @@ function App() {
     setFilterData(filter)
   };
 
+  const setValuesData = (data) => {
+    setValues(data);
+  };
   return (
     <>
       <FilterBox>
         <FilterSearch handleChange = {handleChange}/>
-        <FilterCards data = {filterData}/>
+        <FilterCards data = {filterData} setValuesData = {setValuesData}/>
       </FilterBox>
     </>
   );

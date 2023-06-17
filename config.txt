@@ -11,3 +11,8 @@ and after press y run the http-server -p 8000 and return  Set-ExecutionPolicy Re
 
 
 npm install react-bootstrap bootstrap
+
+
+icons
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/free-regular-svg-icons
