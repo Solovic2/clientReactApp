@@ -42,31 +42,19 @@ function FilterCards(props) {
     };
    
   }, []);
-  // Show Shakwa When Press The Button
- const handleClick = async (path) => {
 
-    const fileUrl = await getFileFromServer(`http://localhost:8081/${path}`);
-    if (fileUrl !== null) {
-      const popup = window.open('blank', '_blank', 'width=600,height=400');
-      popup.document.write(`<pre>${fileUrl}</pre>`);
-    } else {
-      console.error('Error getting file content');
-    }
+  // Show Shakwa When Press The Button
+  const handleClick = async (path) => {
+    fetch(`http://localhost:9000/file/${path}`)
+    .then(response => response.text())
+    .then(fileContents => {
+      // Create popup window
+      const popupWindow = window.open('read-text-file', 'read-text-file', 'width=600,height=400,resizable=no,scrollbars=yes');
+      popupWindow.document.write(`<pre>${fileContents}</pre>`);
+    });
+  
   };
-  // Get File From Server Http-Server
-  const getFileFromServer = async (fileUrl) => {
-    try {
-      const response = await fetch(fileUrl);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch file: ${response.status}`);
-      }
-      const text = await response.text();
-      return text;
-    } catch (error) {
-      console.error('Error fetching file:', error);
-      return null;
-    }
-  };
+
   // Handle Delete
   const handleDelete = async (id) => {
     try {
@@ -127,7 +115,7 @@ function FilterCards(props) {
     
     
   };
-
+  // Handle Edit Reply Submit
   const handleEdit = (id) => {
     setShowForm(prevShowForm => ({
       ...prevShowForm,
@@ -148,7 +136,7 @@ function FilterCards(props) {
                 path = `${element.fileDate}.${element.fileType}`
               }
             if (element.fileType === 'wav') { 
-              audioElement = <audio controls src={`http://localhost:8081/${path}`} />
+              audioElement = <audio controls src={`http://localhost:9000/audio/${path}`} />
             }else{
               audioElement = <div><button className="btn btn-primary"onClick={() => handleClick(path)}>قراءة الشكوى</button></div>
             }
