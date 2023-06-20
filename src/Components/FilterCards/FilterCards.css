@@ -65,6 +65,9 @@
     scrollbar-width: thin;
     scrollbar-color: #ccc #f2f2f2;
 }
+.scrollable-container label{
+    color : #000
+}
   
 .scrollable-content {
     max-height: 100%;

@@ -151,16 +151,17 @@ function FilterCards(props) {
                 <div className="deleteBtn">
                   <button className="btn btn-danger" onClick={() => handleDelete(element.id)}><i className="fa-solid fa-trash"></i></button>
                 </div>
-                <div className='reply-and-edit'>
-                  
-                  <div className="scrollable-container" ref={infoContainerRef}>
-                    <label>الرد :</label>
-                    <div className="scrollable-content">
-                      {element.info}
+                { (element.info !== null && element.info !== '' ) &&(
+                  <div className='reply-and-edit'>
+                    <div className="scrollable-container" ref={infoContainerRef}>
+                      <label>الرد :</label>
+                      <div className="scrollable-content">
+                        {element.info}
+                      </div>
                     </div>
-                  </div>
-                  
                 </div>
+                )}
+                
                 { (element.info !== null && element.info !== '' ) && (
                   <div className="edit-button">
                     <button onClick={() => handleEdit(element.id)}>
