@@ -3,11 +3,14 @@ import React, { useEffect, useState } from 'react'
 import FilterBox from './Components/FilterBox/FilterBox';
 import FilterSearch from './Components/FilterSearch/FilterSearch';
 import FilterCards from './Components/FilterCards/FilterCards';
+import NotificationBar from './Components/NotificationBar/NotificationBar';
 
 function App() {
   const [values, setValues] = useState([])
   const [filterData, setFilterData] = useState([])
   const [eventAction, setEventAction] = useState()
+  const [notifyAddDelete, setNotifyAddDelete] = useState(0)
+  const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
 
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
   useEffect(() => {
@@ -28,9 +31,10 @@ function App() {
       
       if (message.type === 'add') {
         setValues((prevValues) => [...prevValues, message.data]); // add the new data to the previous values
+        setNotifyAddDelete(1);
       } else if (message.type === 'delete') {
-        
         setValues((prevValues) => prevValues.filter(data => data.id !== message.data.id));
+        setNotifyAddDelete(2);
       } else {
         console.warn('Received unknown message type:', message.type);
       }
@@ -42,6 +46,19 @@ function App() {
       ws.close();
     };
   }, []);
+
+  // Notify when delete and added at same time 
+  useEffect(() => {
+    setPrevNotifyAddDelete(notifyAddDelete);
+  }, [notifyAddDelete]);
+
+  useEffect(() => {
+    if (prevNotifyAddDelete === 1 && notifyAddDelete === 2) {
+      setNotifyAddDelete(3);
+      setPrevNotifyAddDelete(null);
+    }
+  }, [notifyAddDelete, prevNotifyAddDelete]);
+
 
   // Filter Data When Values Changes Or Press Any Key In Search Bar
   useEffect(() => {
@@ -59,9 +76,11 @@ function App() {
   const setValuesData = (data) => {
     setValues(data);
   };
+  
   return (
     <>
       <FilterBox>
+        <NotificationBar flag = {notifyAddDelete}/>
         <FilterSearch handleChange = {handleChange}/>
         <FilterCards data = {filterData} setValuesData = {setValuesData}/>
       </FilterBox>
