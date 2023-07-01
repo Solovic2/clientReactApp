@@ -10,6 +10,7 @@ function App() {
   const [filterData, setFilterData] = useState([])
   const [eventAction, setEventAction] = useState()
   const [notifyAddDelete, setNotifyAddDelete] = useState(0)
+  const [notifyCountFlag, setNotifyCountFlag] = useState(0)
   const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
 
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
@@ -32,10 +33,13 @@ function App() {
       if (message.type === 'add') {
         setValues((prevValues) => [...prevValues, message.data]); // add the new data to the previous values
         setNotifyAddDelete(1);
+        setNotifyCountFlag(prev => prev + 1)
       } else if (message.type === 'delete') {
         setValues((prevValues) => prevValues.filter(data => data.id !== message.data.id));
         setNotifyAddDelete(2);
+        setNotifyCountFlag(prev => prev - 1)
       } else {
+        setNotifyCountFlag(0);
         console.warn('Received unknown message type:', message.type);
       }
     });
@@ -55,6 +59,7 @@ function App() {
   useEffect(() => {
     if (prevNotifyAddDelete === 1 && notifyAddDelete === 2) {
       setNotifyAddDelete(3);
+      setNotifyCountFlag(prev => prev + 1)
       setPrevNotifyAddDelete(null);
     }
   }, [notifyAddDelete, prevNotifyAddDelete]);
@@ -80,7 +85,7 @@ function App() {
   return (
     <>
       <FilterBox>
-        <NotificationBar flag = {notifyAddDelete}/>
+        <NotificationBar flag = {notifyAddDelete} notifyFlag = {notifyCountFlag}/>
         <FilterSearch handleChange = {handleChange}/>
         <FilterCards data = {filterData} setValuesData = {setValuesData}/>
       </FilterBox>

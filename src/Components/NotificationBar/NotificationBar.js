@@ -5,6 +5,7 @@ const NotificationBar = (props) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertAddDelete, setShowAlertAddDelete] = useState(false);
   const flag = props.flag;
+  const notifyFlag = props.notifyFlag;
   useEffect(() => {
     if (flag !== 0 && flag !== 3) {
       setShowAlert(true);
@@ -24,7 +25,7 @@ const NotificationBar = (props) => {
           }, 1000);
           return () => clearTimeout(timeoutId1);
     }
-  }, [flag]);
+  }, [flag, notifyFlag]);
 
   if (flag === 1) {
     return (
