@@ -65,10 +65,16 @@ function App() {
   }, [notifyAddDelete, prevNotifyAddDelete]);
 
 
+
   // Filter Data When Values Changes Or Press Any Key In Search Bar
   useEffect(() => {
-    const filter = values.filter(data => data.path.toLowerCase().includes(eventAction))
-    setFilterData(filter)
+    if(!eventAction){
+      setFilterData(values)
+    }else{
+      const filter = values.filter(data => data.path.toLowerCase().includes(eventAction))
+      setFilterData(filter)
+    }
+    
   },[values, eventAction])
 
   // Handle The Change When Pressing Key In Search Bar To Filter Data
