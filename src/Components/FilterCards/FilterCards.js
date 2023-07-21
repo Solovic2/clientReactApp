@@ -65,8 +65,7 @@ function FilterCards(props) {
         throw new Error('Failed to delete card');
       }
 
-      
-      props.setValuesData(props.data.filter(card => card.id !== id));
+      props.setValuesData(prevData =>  prevData.filter(card => card.id !== id));
       // Remove the deleted card from the state
 
     } catch (error) {
