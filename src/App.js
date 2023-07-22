@@ -31,11 +31,11 @@ function App() {
       const message = JSON.parse(event.data);
       
       if (message.type === 'add') {
-        setValues((prevValues) => [...prevValues, message.data]); // add the new data to the previous values
+        setFilterData((prevValues) => [...prevValues, message.data]); // add the new data to the previous values
         setNotifyAddDelete(1);
         setNotifyCountFlag(prev => prev + 1)
       } else if (message.type === 'delete') {
-        setValues((prevValues) => prevValues.filter(data => data.id !== message.data.id));
+        setFilterData((prevValues) => prevValues.filter(data => data.id !== message.data.id));
         setNotifyAddDelete(2);
         setNotifyCountFlag(prev => prev - 1)
       } else {
@@ -87,13 +87,21 @@ function App() {
   const setValuesData = (data) => {
     setValues(data);
   };
+
+  const getValuesData = () => {
+    return values;
+  };
+
+  const setFilteredData = (data) => {
+    setFilterData(data);
+  };
   
   return (
     <>
       <FilterBox>
         <NotificationBar flag = {notifyAddDelete} notifyFlag = {notifyCountFlag}/>
-        <FilterSearch handleChange = {handleChange}/>
-        <FilterCards data = {filterData} setValuesData = {setValuesData}/>
+        <FilterSearch handleChange = {handleChange} getValuesData = {getValuesData} setFilteredData = {setFilteredData}/>
+        <FilterCards data = {filterData} setValuesData = {setValuesData} setFilteredData = {setFilteredData}/>
       </FilterBox>
     </>
   );

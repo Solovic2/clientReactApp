@@ -73,6 +73,10 @@ function FilterCards(props) {
       props.setValuesData((prevData) =>
         prevData.filter((card) => card.id !== id)
       );
+      // props.setFilteredData((prevData) =>
+      //    prevData.filter((card) => card.id !== id)
+      // );
+      console.log(props.data)
       // Remove the deleted card from the state
     } catch (error) {
       console.error("Error deleting card:", error);
