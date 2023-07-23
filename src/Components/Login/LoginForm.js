@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./LoginForm.css"
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
+
 function LoginForm() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
-
-  const navigate = useNavigate();
+  const userData = location.state?.user;
+  // useEffect(() => {
+  //   if(userData){
+  //     navigate("/");
+  //     return;
+  //   }
+  // }, [userData, navigate])
+  
+  // if (userData) {
+  //   return null; // Don't render anything if the user is not logged in
+  // }
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle login submission here
     const formData = {
       username: username,
       password: password,
@@ -21,6 +34,7 @@ function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({ data: formData }),
       }
     );
@@ -28,11 +42,11 @@ function LoginForm() {
       const errorData = await response.json();
       setError(errorData.error);
     }else{
-      navigate("/home")
+      const userData = await response.json();
+      navigate("/",{
+        state: { user: userData },
+      })
     }
-
-
-    
   };
 
   return (
@@ -59,7 +73,9 @@ function LoginForm() {
       </div>
       }
     </form>
-  );
+  ); 
+
+  
 }
 
 export default LoginForm;

@@ -1,24 +1,53 @@
 import './Home.css';
 import React, { useEffect, useState } from 'react'
+import { useLocation } from "react-router-dom";
 import FilterBox from '../../Components/FilterBox/FilterBox';
 import FilterSearch from '../../Components/FilterSearch/FilterSearch';
 import FilterCards from '../../Components/FilterCards/FilterCards';
 import NotificationBar from '../../Components/NotificationBar/NotificationBar';
+import { useNavigate } from 'react-router-dom';
+import Logout from '../../Components/Login/Logout';
 
 function Home() {
+  const location = useLocation();
   const [values, setValues] = useState([])
   const [filterData, setFilterData] = useState([])
   const [eventAction, setEventAction] = useState()
   const [notifyAddDelete, setNotifyAddDelete] = useState(0)
   const [notifyCountFlag, setNotifyCountFlag] = useState(0)
   const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
-
+  const navigate = useNavigate();
+  const userData = location.state?.user;
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
   useEffect(() => {
+    
+    if (!userData) {
+      // Redirect to login page if user data is not available
+      navigate("/login");
+      return;
+    }
 
-    fetch("http://localhost:9000/")
-    .then(res => res.json())
-    .then(data => setValues(data));
+    fetch("http://localhost:9000/",{
+      credentials: 'include'
+    })
+    .then(response => {
+      if (response.ok) {
+        // The response status is in the 2xx range, so the request was successful
+        return response.json();
+      } else if (response.status === 401) {
+        // The user is not authenticated, display error message
+        // throw new Error('You are not authenticated');
+        navigate("/login");
+      } else {
+        // The response status is not in the 2xx or 401 range, display error message
+        throw new Error('An error occurred while fetching data');
+      }
+    })
+    .then(data => setValues(data))
+    .catch(error => {
+      // Display the error message
+      console.error(error.message);
+    })
 
 
     const ws = new WebSocket('ws://localhost:8000');
@@ -49,8 +78,8 @@ function Home() {
     return () => {
       ws.close();
     };
-  }, []);
-
+  }, [userData, navigate]);
+  
   // Notify when delete and added at same time 
   useEffect(() => {
     setPrevNotifyAddDelete(notifyAddDelete);
@@ -76,7 +105,10 @@ function Home() {
     }
     
   },[values, eventAction])
-
+  
+  if (!userData) {
+    return null; // Don't render anything if the user is not logged in
+  }
   // Handle The Change When Pressing Key In Search Bar To Filter Data
   const handleChange = (event) => {
     const filter = values.filter(data => data.path.toLowerCase().includes(event.target.value))
@@ -99,6 +131,7 @@ function Home() {
   return (
     <>
         <FilterBox>
+            <Logout/>
             <NotificationBar flag = {notifyAddDelete} notifyFlag = {notifyCountFlag}/>
             <FilterSearch handleChange = {handleChange} getValuesData = {getValuesData} setFilteredData = {setFilteredData}/>
             <FilterCards data = {filterData} setValuesData = {setValuesData} setFilteredData = {setFilteredData}/>

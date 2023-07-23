@@ -21,6 +21,7 @@ function RegistrationForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({ data: formData }),
       }
     );
@@ -28,7 +29,10 @@ function RegistrationForm() {
       setSameUserName(true)
     }else{
       setSameUserName(false)
-      navigate("/home")
+      const userData = await response.json();
+      navigate("/",{
+        state: { user: userData },
+      })
     }
 
 

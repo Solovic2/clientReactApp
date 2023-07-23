@@ -13,8 +13,8 @@ function App() {
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<RegistrationForm />}/>
-          <Route path="/home" element={<Home />} />
+        <Route path="/register" element={<RegistrationForm />}/>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="*" element={<NoPage />} />
       </Routes>
