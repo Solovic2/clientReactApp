@@ -1,15 +1,14 @@
 import './Home.css';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from "react-router-dom";
 import FilterBox from '../../Components/FilterBox/FilterBox';
 import FilterSearch from '../../Components/FilterSearch/FilterSearch';
 import FilterCards from '../../Components/FilterCards/FilterCards';
 import NotificationBar from '../../Components/NotificationBar/NotificationBar';
 import { useNavigate } from 'react-router-dom';
 import Logout from '../../Components/Login/Logout';
+import { useSelector } from 'react-redux';
 
 function Home() {
-  const location = useLocation();
   const [values, setValues] = useState([])
   const [filterData, setFilterData] = useState([])
   const [eventAction, setEventAction] = useState()
@@ -17,16 +16,16 @@ function Home() {
   const [notifyCountFlag, setNotifyCountFlag] = useState(0)
   const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
   const navigate = useNavigate();
-  const userData = location.state?.user;
+  const user = useSelector(state => state.user)
+
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
   useEffect(() => {
     
-    if (!userData) {
+    if (user.user == null) {
       // Redirect to login page if user data is not available
       navigate("/login");
       return;
     }
-
     fetch("http://localhost:9000/",{
       credentials: 'include'
     })
@@ -78,7 +77,7 @@ function Home() {
     return () => {
       ws.close();
     };
-  }, [userData, navigate]);
+  }, [user, navigate]);
   
   // Notify when delete and added at same time 
   useEffect(() => {
@@ -106,7 +105,7 @@ function Home() {
     
   },[values, eventAction])
   
-  if (!userData) {
+  if (user.user == null) {
     return null; // Don't render anything if the user is not logged in
   }
   // Handle The Change When Pressing Key In Search Bar To Filter Data

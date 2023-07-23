@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
+import { useSelector } from "react-redux";
 
 function FilterCards(props) {
   const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
   const [showForm, setShowForm] = useState({});
-
+  const {user} = useSelector(state=>state.user)
+  const cardClass = user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card";
   // Show ScrollBar When There Are Elements Fit The Height Of The ScrollBar Or Hide It When No Element Fit The Height
   useEffect(() => {
     const cardContainer = cardContainerRef.current;
@@ -164,13 +166,14 @@ function FilterCards(props) {
           );
         }
 
+
         return (
-          <div key={element.id} className="card">
+          <div key={element.id} className={cardClass}>
             <div className="mobile">
-            <label className="card-label">
-              {element.mobile || "UnKnown"}
-              <span className="card-info"> :رقم الهاتف</span>
-            </label>
+              <label className="card-label">
+                {element.mobile || "UnKnown"}
+                <span className="card-info"> :رقم الهاتف</span>
+              </label>
             </div>
             <div className="file-date">
               <label className="card-label">
@@ -179,52 +182,57 @@ function FilterCards(props) {
             </label>
             </div>
             <div className="audio-element">{audioElement}</div>
-            <div className="deleteBtn">
-              <button
-                className="btn btn-danger"
-                onClick={() => handleDelete(element.id)}
-              >
-                <i className="fa-solid fa-trash"></i>
-              </button>
-            </div>
-            {element.info !== null && element.info !== "" && (
-              <div className="reply-and-edit">
-                <div className="scrollable-container" ref={infoContainerRef}>
-                  <label>الرد :</label>
-                  <div className="scrollable-content">{element.info}</div>
-                </div>
-              </div>
+            {(user.data.role === "Admin") && (
+               <div className="deleteBtn">
+               <button
+                 className="btn btn-danger"
+                 onClick={() => handleDelete(element.id)}
+               >
+                 <i className="fa-solid fa-trash"></i>
+               </button>
+             </div>
             )}
-
-            {element.info !== null && element.info !== "" && (
-              <div className="edit-button">
-                <button onClick={() => handleEdit(element.id)}>
-                  {showForm[element.id] ? "Cancel" : "Edit"}
-                </button>
-              </div>
-            )}
-
-            {(element.info === null ||
-              element.info === "" ||
-              showForm[element.id]) && (
-              <div className="form-submit">
-                <form
-                  onSubmit={(event) => handleSubmit(event, element.id)}
-                  className="d-flex justify-content-between w-100"
-                >
-                  <input
-                    type="text"
-                    name="infoInput"
-                    className="my-input mr-2"
-                    placeholder="الرد"
-                    defaultValue={element.info}
-                  />
-                  <button type="submit" className="btn btn-sm btn-success">
-                    {showForm[element.id] ? "تعديل" : "إضافة رد"}
+           
+           {(user.data.role === "Admin" || user.data.role === "Manager") && (
+            <>
+              {element.info !== null && element.info !== "" && (
+                  <div className="reply-and-edit">
+                    <div className="scrollable-container" ref={infoContainerRef}>
+                      <label>الرد :</label>
+                      <div className="scrollable-content">{element.info}</div>
+                    </div>
+                  </div>
+              )}
+              {element.info !== null && element.info !== "" && (
+                <div className="edit-button">
+                  <button onClick={() => handleEdit(element.id)}>
+                    {showForm[element.id] ? "Cancel" : "Edit"}
                   </button>
-                </form>
-              </div>
-            )}
+                </div>
+              )}
+              {(element.info === null ||
+                element.info === "" ||
+                showForm[element.id]) && (
+                <div className="form-submit">
+                  <form
+                    onSubmit={(event) => handleSubmit(event, element.id)}
+                    className="d-flex justify-content-between w-100"
+                  >
+                    <input
+                      type="text"
+                      name="infoInput"
+                      className="my-input mr-2"
+                      placeholder="الرد"
+                      defaultValue={element.info}
+                    />
+                    <button type="submit" className="btn btn-sm btn-success">
+                      {showForm[element.id] ? "تعديل" : "إضافة رد"}
+                    </button>
+                  </form>
+                </div>
+              )}
+            </>
+           )}
           </div>
         );
       })}

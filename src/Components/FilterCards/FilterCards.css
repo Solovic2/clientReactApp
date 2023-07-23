@@ -19,6 +19,12 @@
     justify-content: space-between;
     position: relative;
 }
+.card.card-user{
+    height: 250px !important;
+}
+.card.card-manager{
+    height: 300px !important;
+}
 .deleteBtn {
     position: absolute;
     top: 0;
@@ -27,9 +33,11 @@
 }
 
 
-.mobile {
+
+.card.card-admin .mobile{
     margin-top: 40px;
 }
+
 .card-label {
     display: block;
 }

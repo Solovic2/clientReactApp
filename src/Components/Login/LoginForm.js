@@ -1,26 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState, useEffect} from 'react';
 import "./LoginForm.css"
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '../../Redux/userSlice';
+
 
 
 
 function LoginForm() {
-  const location = useLocation();
   const navigate = useNavigate();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
-  const userData = location.state?.user;
-  // useEffect(() => {
-  //   if(userData){
-  //     navigate("/");
-  //     return;
-  //   }
-  // }, [userData, navigate])
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user.user != null) {
+      // Redirect to login page if user data is not available
+      navigate("/");
+      return;
+    }
+  }, [user, navigate])
+
+  if (user.user != null) {
+    return null;
+  }
   
-  // if (userData) {
-  //   return null; // Don't render anything if the user is not logged in
-  // }
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = {
@@ -43,6 +48,7 @@ function LoginForm() {
       setError(errorData.error);
     }else{
       const userData = await response.json();
+      dispatch(addUser(userData))
       navigate("/",{
         state: { user: userData },
       })
@@ -71,9 +77,13 @@ function LoginForm() {
       {error  && <div className="alert alert-primary pop" role="alert">
         {error}
       </div>
-      }
+      }<div>
+      لا تملك حسابًا وتريد بعمل حساب جديد؟ <Link to="/register">التسجيل</Link>
+    </div>
     </form>
   ); 
+  
+  
 
   
 }

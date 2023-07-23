@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./RegistrationForm.css"
-import { useNavigate  } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '../../Redux/userSlice';
 function RegistrationForm() {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [sameUsername, setSameUserName] = useState(false)
-  const [user, setUser] = useState('')
+  const user = useSelector(state=>state.user)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    if (user.user != null) {
+      // Redirect to login page if user data is not available
+      navigate("/");
+      return;
+    }
+  }, [user, navigate])
+
+  if (user.user != null) {
+    return null;
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle registration submission here
@@ -30,6 +46,7 @@ function RegistrationForm() {
     }else{
       setSameUserName(false)
       const userData = await response.json();
+      dispatch(addUser(userData))
       navigate("/",{
         state: { user: userData },
       })
@@ -65,6 +82,9 @@ function RegistrationForm() {
         هذا المستخدم موجود مسبقاً
       </div>
       }
+      <div>
+        هل تملك حسابًا ؟ <Link to="/login">تسجيل الدخول</Link>
+      </div>
     </form>
       </div>
       

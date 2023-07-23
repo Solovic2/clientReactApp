@@ -19,3 +19,6 @@ npm i --save @fortawesome/free-regular-svg-icons
 
 npm install jquery
 npm i -D react-router-dom
+
+npm i redux-persist
+npm i react-redux
