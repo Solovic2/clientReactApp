@@ -40,6 +40,7 @@ function RegistrationForm() {
   }
   return (
     <>
+      <div className= "register-form">
       <form onSubmit={handleSubmit}>
       <label>
         <span>إسم المستخدم:</span>
@@ -65,6 +66,8 @@ function RegistrationForm() {
       </div>
       }
     </form>
+      </div>
+      
      
     </>
     

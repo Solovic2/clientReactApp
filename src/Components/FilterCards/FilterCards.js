@@ -44,7 +44,7 @@ function FilterCards(props) {
 
   // Show Shakwa When Press The Button
   const handleClick = async (path) => {
-    fetch(`http://localhost:9000/file/${path}`)
+    fetch(`http://localhost:9000/file/${path}`, {credentials: 'include',})
       .then((response) => response.text())
       .then((fileContents) => {
         // Create popup window
@@ -64,6 +64,7 @@ function FilterCards(props) {
         `http://localhost:9000/delete-complain/${id}`,
         {
           method: "DELETE",
+          credentials: 'include',
         }
       );
       if (!response.ok) {
@@ -99,6 +100,7 @@ function FilterCards(props) {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({ info: inputValue }),
           }
         );

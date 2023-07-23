@@ -50,9 +50,9 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form"onSubmit={handleSubmit}>
       <label>
-        Username:
+        إسم المستخدم:
         <input
           type="text"
           value={username}
@@ -60,7 +60,7 @@ function LoginForm() {
         />
       </label>
       <label>
-        Password:
+        كلمة السر:
         <input
           type="password"
           value={password}
