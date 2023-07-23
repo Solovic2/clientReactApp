@@ -5,7 +5,9 @@
     margin-top: 50px;
     direction: rtl;
   }
-  
+  .login-form .pop{
+    margin-top:20px
+  }
 .login-form label {
     display: flex;
     flex-direction: column;
