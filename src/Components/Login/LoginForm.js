@@ -48,7 +48,7 @@ function LoginForm() {
       setError(errorData.error);
     }else{
       const userData = await response.json();
-      dispatch(addUser(userData))
+      // dispatch(addUser(userData))
       navigate("/",{
         state: { user: userData },
       })

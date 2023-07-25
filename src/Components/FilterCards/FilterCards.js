@@ -7,7 +7,9 @@ function FilterCards(props) {
   const infoContainerRef = useRef(null);
   const [showForm, setShowForm] = useState({});
   const {user} = useSelector(state=>state.user)
-  const cardClass = user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card";
+  // const cardClass = user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card";
+  const cardClass = "card";
+  
   // Show ScrollBar When There Are Elements Fit The Height Of The ScrollBar Or Hide It When No Element Fit The Height
   useEffect(() => {
     const cardContainer = cardContainerRef.current;
@@ -182,7 +184,7 @@ function FilterCards(props) {
             </label>
             </div>
             <div className="audio-element">{audioElement}</div>
-            {(user.data.role === "Admin") && (
+            {/* {(user.data.role === "Admin") && ( */}
                <div className="deleteBtn">
                <button
                  className="btn btn-danger"
@@ -191,9 +193,9 @@ function FilterCards(props) {
                  <i className="fa-solid fa-trash"></i>
                </button>
              </div>
-            )}
+            {/* )} */}
            
-           {(user.data.role === "Admin" || user.data.role === "Manager") && (
+           {/* {(user.data.role === "Admin" || user.data.role === "Manager") && ( */}
             <>
               {element.info !== null && element.info !== "" && (
                   <div className="reply-and-edit">
@@ -232,7 +234,7 @@ function FilterCards(props) {
                 </div>
               )}
             </>
-           )}
+           {/* )} */}
           </div>
         );
       })}

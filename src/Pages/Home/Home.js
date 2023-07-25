@@ -5,8 +5,8 @@ import FilterSearch from '../../Components/FilterSearch/FilterSearch';
 import FilterCards from '../../Components/FilterCards/FilterCards';
 import NotificationBar from '../../Components/NotificationBar/NotificationBar';
 import { useNavigate } from 'react-router-dom';
-import Logout from '../../Components/Login/Logout';
 import { useSelector } from 'react-redux';
+import NavBarList from '../../Components/NavBar/NavBarList';
 
 function Home() {
   const [values, setValues] = useState([])
@@ -21,11 +21,11 @@ function Home() {
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
   useEffect(() => {
     
-    if (user.user == null) {
-      // Redirect to login page if user data is not available
-      navigate("/login");
-      return;
-    }
+    // if (user.user == null) {
+    //   // Redirect to login page if user data is not available
+    //   navigate("/login");
+    //   return;
+    // }
     fetch("http://localhost:9000/",{
       credentials: 'include'
     })
@@ -105,9 +105,9 @@ function Home() {
     
   },[values, eventAction])
   
-  if (user.user == null) {
-    return null; // Don't render anything if the user is not logged in
-  }
+  // if (user.user == null) {
+  //   return null; // Don't render anything if the user is not logged in
+  // }
   // Handle The Change When Pressing Key In Search Bar To Filter Data
   const handleChange = (event) => {
     const filter = values.filter(data => data.path.toLowerCase().includes(event.target.value))
@@ -130,7 +130,7 @@ function Home() {
   return (
     <>
         <FilterBox>
-            <Logout/>
+            <NavBarList/>
             <NotificationBar flag = {notifyAddDelete} notifyFlag = {notifyCountFlag}/>
             <FilterSearch handleChange = {handleChange} getValuesData = {getValuesData} setFilteredData = {setFilteredData}/>
             <FilterCards data = {filterData} setValuesData = {setValuesData} setFilteredData = {setFilteredData}/>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import "./Logout.css"
 import { useDispatch } from 'react-redux';
 import { removeUser } from '../../Redux/userSlice';
 const Logout = () => {
