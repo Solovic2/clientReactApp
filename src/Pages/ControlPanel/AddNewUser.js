@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import "./AddNewUser.css"
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-const AddNewUser = (props) => {
+const AddNewUser = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('User');
   const navigate = useNavigate();
-  const { user } = useSelector(state => state.user)
+  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+
+
   useEffect(() => {
-    if (user === null || user.data.role !== "Admin") {
+    if (!user || user.data.role !== "Admin") {
       // Redirect to login page if user data is not available
       navigate("/");
       return;
     }
   }, [user, navigate]);
-  if (user === null || user.data.role !== "Admin") {
+  if (!user || user.data.role !== "Admin") {
     return null;
   }
   const handleSubmit = async (e) => {
@@ -42,7 +43,7 @@ const AddNewUser = (props) => {
         throw new Error("Failed to delete card");
       } else {
         navigate('/control-panel-admin/', {
-          state: { user: user.data }
+          state: { user: user }
         })
       }
 

@@ -5,7 +5,6 @@ import FilterSearch from '../../Components/FilterSearch/FilterSearch';
 import FilterCards from '../../Components/FilterCards/FilterCards';
 import NotificationBar from '../../Components/NotificationBar/NotificationBar';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import NavBarList from '../../Components/NavBar/NavBarList';
 
 function Home() {
@@ -16,16 +15,19 @@ function Home() {
   const [notifyCountFlag, setNotifyCountFlag] = useState(0)
   const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
   const navigate = useNavigate();
-  const user = useSelector(state => state.user)
 
+  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+  
+  useEffect(() => {
+    if (!user) {
+      // Redirect to login page if user data is not available
+      navigate("/login");
+      return;
+    }
+  }, [user, navigate])
+  
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
   useEffect(() => {
-    
-    // if (user.user == null) {
-    //   // Redirect to login page if user data is not available
-    //   navigate("/login");
-    //   return;
-    // }
     fetch("http://localhost:9000/",{
       credentials: 'include'
     })
@@ -36,7 +38,7 @@ function Home() {
       } else if (response.status === 401) {
         // The user is not authenticated, display error message
         // throw new Error('You are not authenticated');
-        navigate("/login");
+        throw new Error('You are not authenticated');
       } else {
         // The response status is not in the 2xx or 401 range, display error message
         throw new Error('An error occurred while fetching data');
@@ -46,8 +48,8 @@ function Home() {
     .catch(error => {
       // Display the error message
       console.error(error.message);
+      navigate("/login");
     })
-
 
     const ws = new WebSocket('ws://localhost:8000');
 
@@ -77,7 +79,8 @@ function Home() {
     return () => {
       ws.close();
     };
-  }, [user, navigate]);
+  }, [navigate]);
+  
   
   // Notify when delete and added at same time 
   useEffect(() => {
@@ -105,9 +108,9 @@ function Home() {
     
   },[values, eventAction])
   
-  // if (user.user == null) {
-  //   return null; // Don't render anything if the user is not logged in
-  // }
+  if (user == null) {
+    return null; // Don't render anything if the user is not logged in
+  }
   // Handle The Change When Pressing Key In Search Bar To Filter Data
   const handleChange = (event) => {
     const filter = values.filter(data => data.path.toLowerCase().includes(event.target.value))

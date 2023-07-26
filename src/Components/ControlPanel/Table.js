@@ -1,11 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import "./Table.css"
 import { useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
 const Table = () => {
-    const { user } = useSelector(state => state.user)
     const navigate = useNavigate()
     const [users, setUsers] = useState([])
+    const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+
+   
+
+    useEffect(() => {
+        if (!user || user.data.role !== "Admin") {
+            // Redirect to login page if user data is not available
+            navigate("/");
+            return;
+        }
+        fetch("http://localhost:9000/admin/users", {
+            credentials: 'include'
+        }).then(response => {
+                if (response.ok) {
+                    // The response status is in the 2xx range, so the request was successful
+                    return response.json();
+                } else if (response.status === 401) {
+                    // The user is not authenticated, display error message
+                    // throw new Error('You are not authenticated');
+                    console.log(response);
+                } else {
+                    // The response status is not in the 2xx or 401 range, display error message
+                    throw new Error('An error occurred while fetching data');
+                }
+            })
+            .then(data => setUsers(data))
+            .catch(error => {
+                // Display the error message
+                console.error(error.message);
+            })
+    }, [user, navigate])
 
     // const handleEdit = (userID) => {
     //     navigate(`/control-panel-admin/edit/${userID}`, {
@@ -38,34 +67,8 @@ const Table = () => {
           }
     }
     
-    useEffect(() => {
-        if (user === null || user.data.role !== "Admin") {
-            // Redirect to login page if user data is not available
-            navigate("/");
-            return;
-        }
-        fetch("http://localhost:9000/admin/users", {
-            credentials: 'include'
-        }).then(response => {
-                if (response.ok) {
-                    // The response status is in the 2xx range, so the request was successful
-                    return response.json();
-                } else if (response.status === 401) {
-                    // The user is not authenticated, display error message
-                    // throw new Error('You are not authenticated');
-                    console.log(response);
-                } else {
-                    // The response status is not in the 2xx or 401 range, display error message
-                    throw new Error('An error occurred while fetching data');
-                }
-            })
-            .then(data => setUsers(data))
-            .catch(error => {
-                // Display the error message
-                console.error(error.message);
-            })
-    }, [user, navigate])
-    if (user === null || user.data.role !== "Admin") {
+
+    if (!user|| user.data.role !== "Admin") {
         return null;
     }
     return (

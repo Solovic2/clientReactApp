@@ -1,13 +1,13 @@
 import React from 'react'
 import "./AddUser.css"
 import { useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
-const AddUser = (props) => {
-    const user = useSelector(state => state.user)
+const AddUser = () => {
     const navigate = useNavigate();
+    const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+
     const handleClick = () => {
         navigate('/control-panel-admin/add' , {
-            state: {user: user.user}
+            state: {user: user ? user : null}
         })
     }
   return (

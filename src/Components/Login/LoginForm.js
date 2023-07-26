@@ -1,28 +1,24 @@
 import React, {  useState, useEffect} from 'react';
 import "./LoginForm.css"
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../../Redux/userSlice';
-
-
-
-
 function LoginForm() {
   const navigate = useNavigate();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
-  const user = useSelector(state => state.user)
-  const dispatch = useDispatch();
+
+  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+
+
   useEffect(() => {
-    if (user.user != null) {
+    if (user) {
       // Redirect to login page if user data is not available
       navigate("/");
       return;
     }
   }, [user, navigate])
 
-  if (user.user != null) {
+  if (user) {
     return null;
   }
   
@@ -48,7 +44,7 @@ function LoginForm() {
       setError(errorData.error);
     }else{
       const userData = await response.json();
-      // dispatch(addUser(userData))
+      sessionStorage.setItem('storedUser', JSON.stringify(userData));
       navigate("/",{
         state: { user: userData },
       })

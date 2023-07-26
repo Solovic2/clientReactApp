@@ -1,14 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
-import { useSelector } from "react-redux";
 
 function FilterCards(props) {
   const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
   const [showForm, setShowForm] = useState({});
-  const {user} = useSelector(state=>state.user)
-  // const cardClass = user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card";
-  const cardClass = "card";
+  const [cardClass, setCardClass] = useState('card')
+  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+
+  useEffect(() => {
+    if(user){
+      setCardClass(user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card");
+    }else{
+      setCardClass('card')
+    }
+  
+  }, [user])
+  
+ 
+
   
   // Show ScrollBar When There Are Elements Fit The Height Of The ScrollBar Or Hide It When No Element Fit The Height
   useEffect(() => {
@@ -78,9 +88,7 @@ function FilterCards(props) {
       props.setValuesData((prevData) =>
         prevData.filter((card) => card.id !== id)
       );
-      // props.setFilteredData((prevData) =>
-      //    prevData.filter((card) => card.id !== id)
-      // );
+
       console.log(props.data)
       // Remove the deleted card from the state
     } catch (error) {
@@ -184,7 +192,7 @@ function FilterCards(props) {
             </label>
             </div>
             <div className="audio-element">{audioElement}</div>
-            {/* {(user.data.role === "Admin") && ( */}
+             { user && (user.data.role === "Admin") && ( 
                <div className="deleteBtn">
                <button
                  className="btn btn-danger"
@@ -193,9 +201,9 @@ function FilterCards(props) {
                  <i className="fa-solid fa-trash"></i>
                </button>
              </div>
-            {/* )} */}
+            )} 
            
-           {/* {(user.data.role === "Admin" || user.data.role === "Manager") && ( */}
+           { user && (user.data.role === "Admin" || user.data.role === "Manager") && (
             <>
               {element.info !== null && element.info !== "" && (
                   <div className="reply-and-edit">
@@ -234,7 +242,7 @@ function FilterCards(props) {
                 </div>
               )}
             </>
-           {/* )} */}
+            )} 
           </div>
         );
       })}

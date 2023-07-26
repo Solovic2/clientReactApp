@@ -1,13 +1,11 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Button = () => {
-  const user = useSelector(state => state.user)
+  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
   const navigate = useNavigate();
   const handleClick = () =>{
     navigate("/control-panel-admin",{
-      state : { user: user.user }
+      state: {user : user ? user : null}
     })
   }
   return (
