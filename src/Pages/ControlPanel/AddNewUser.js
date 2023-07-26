@@ -5,9 +5,9 @@ const AddNewUser = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('User');
+  const [error, setError] = useState("")
   const navigate = useNavigate();
   const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
-
 
   useEffect(() => {
     if (!user || user.data.role !== "Admin") {
@@ -35,12 +35,13 @@ const AddNewUser = () => {
             "Content-Type": "application/json",
           },
           credentials: 'include',
-          body: JSON.stringify({ data }),
+          body: JSON.stringify( {data} ),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to delete card");
+        const errorData = await response.json();
+        setError(errorData.error);
       } else {
         navigate('/control-panel-admin/', {
           state: { user: user }
@@ -73,6 +74,10 @@ const AddNewUser = () => {
           </select>
         </div>
         <button type="submit">إضافة مستخدم جديد</button>
+        {error  && <div className="alert alert-primary pop" role="alert">
+        {error}
+      </div>
+      }
       </form>
     </div>
   );
