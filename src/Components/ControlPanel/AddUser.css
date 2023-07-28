@@ -1,3 +1,6 @@
-.add-new-member{
+.navbar-buttons{
     margin-top :20px
+}
+.add-new-member{
+    float: right;
 }

@@ -33,11 +33,11 @@ const Table = () => {
             })
     }, [navigate])
 
-    // const handleEdit = (userID) => {
-    //     navigate(`/control-panel-admin/edit/${userID}`, {
-    //         state: { user: user.user }
-    //     })
-    // }
+    const handleEdit = (userID) => {
+        navigate(`/control-panel-admin/edit/${userID}`, {
+            state: { user: user.user }
+        })
+    }
 
     
     const handleDelete = async (id) => {
@@ -54,7 +54,6 @@ const Table = () => {
             }else{
                 const updatedUsers = users.filter((user) => user.id !== id);
                 setUsers(updatedUsers);
-                console.log(response.json());
             }
       
         
@@ -93,7 +92,7 @@ const Table = () => {
                                     <th>{user.role}</th>
                                     <th>
                                         <div>
-                                            {/* <button type="button" className="btn btn-success" onClick={() => handleEdit(user.id)}>تعديل المستخدم</button> */}
+                                            <button type="button" className="btn btn-success" onClick={() => handleEdit(user.id)}>تعديل المستخدم</button>
                                             <button type="button" className="btn btn-danger" onClick={() => handleDelete(user.id)}>مسح المستخدم</button>
                                         </div>
                                     </th>

@@ -10,17 +10,17 @@ function LoginForm() {
   const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
 
 
-  useEffect(() => {
-    if (user) {
-      // Redirect to login page if user data is not available
-      navigate("/");
-      return;
-    }
-  }, [user, navigate])
+  // useEffect(() => {
+  //   if (user) {
+  //     // Redirect to login page if user data is not available
+  //     navigate("/");
+  //     return;
+  //   }
+  // }, [user, navigate])
 
-  if (user) {
-    return null;
-  }
+  // if (user) {
+  //   return null;
+  // }
   
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -10,12 +10,16 @@ const AddUser = () => {
             state: {user: user ? user : null}
         })
     }
+    const handleBack = () => {
+        navigate('/' , {
+            state: {user: user ? user : null}
+        })
+    }
   return (
     <>
-        <div className='add-new-member'>
-            
-            <button type="button" className="btn btn-primary" onClick={handleClick}>إضافة مستخدم جديد</button>
-            
+        <div className='navbar-buttons'>
+            <button type="button" className="btn btn-primary add-new-member" onClick={handleClick}>إضافة مستخدم جديد</button>
+            <button type="button" className="btn btn-primary" onClick={handleBack}>العودة للصفحة الرئيسية</button>
         </div>
     </>
   )
