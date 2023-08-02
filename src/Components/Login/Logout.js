@@ -1,7 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 const Logout = () => {
-
+    const [, , removeCookie] = useCookies(['user']);
     const navigate = useNavigate();
 
     
@@ -9,7 +10,8 @@ const Logout = () => {
         event.preventDefault();
         const response = await fetch('/logout');
         if (response.ok) {
-            sessionStorage.removeItem('storedUser');
+            removeCookie('user', { path: '/' });
+            
             navigate('/login'); // Redirect to the login page after logging out
         } else {
         console.error('Error logging out:', response.statusText);

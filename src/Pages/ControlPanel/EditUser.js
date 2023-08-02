@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import "./AddNewUser.css"
 import { useNavigate } from 'react-router';
 import { useParams} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 const EditUser = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('User');
   const [error, setError] = useState("")
   const navigate = useNavigate();
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+  const [{user}] = useCookies(['user']);
   const params = useParams();
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const EditUser = () => {
         const errorData = await response.json();
         setError(errorData.error);
       } else {
+        console.log(user);
         navigate('/control-panel-admin/', {
           state: { user: user }
         })

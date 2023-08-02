@@ -22,3 +22,5 @@ npm i -D react-router-dom
 
 npm i redux-persist
 npm i react-redux
+
+npm install react-cookie

@@ -6,7 +6,7 @@ import FilterCards from '../../Components/FilterCards/FilterCards';
 import NotificationBar from '../../Components/NotificationBar/NotificationBar';
 import { useNavigate } from 'react-router-dom';
 import NavBarList from '../../Components/NavBar/NavBarList';
-
+import { useCookies } from 'react-cookie';
 function Home() {
   const [values, setValues] = useState([])
   const [filterData, setFilterData] = useState([])
@@ -16,8 +16,7 @@ function Home() {
   const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
   const navigate = useNavigate();
 
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
-  
+  const [{user}] = useCookies(['user']);
   useEffect(() => {
     if (!user) {
       // Redirect to login page if user data is not available

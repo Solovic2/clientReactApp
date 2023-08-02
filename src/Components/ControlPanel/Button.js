@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 const Button = () => {
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
   const navigate = useNavigate();
   const handleClick = () =>{
-    navigate("/control-panel-admin",{
-      state: {user : user ? user : null}
-    })
+    navigate("/control-panel-admin")
   }
   return (
     <>

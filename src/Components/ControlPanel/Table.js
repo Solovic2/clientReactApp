@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import "./Table.css"
 import { useNavigate } from 'react-router'
+import { useCookies } from 'react-cookie';
 const Table = () => {
     const navigate = useNavigate()
     const [users, setUsers] = useState([])
-    const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
-
+    const [{user}] = useCookies(['user']);
    useEffect(() => {
     if (!user || user.data.role !== "Admin") {
         // Redirect to login page if user data is not available

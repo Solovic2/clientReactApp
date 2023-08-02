@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import "./AddNewUser.css"
 import { useNavigate } from 'react-router';
+import { useCookies } from 'react-cookie';
 const AddNewUser = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('User');
   const [error, setError] = useState("")
   const navigate = useNavigate();
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
-
+  const [{user}] = useCookies(['user']);
   useEffect(() => {
     if (!user || user.data.role !== "Admin") {
       // Redirect to login page if user data is not available

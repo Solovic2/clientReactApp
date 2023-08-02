@@ -2,8 +2,9 @@ import React from 'react'
 import Logout from '../Login/Logout'
 import Button from '../ControlPanel/Button'
 import "./NavBarList.css"
+import { useCookies } from 'react-cookie';
 const NavBarList = () => {
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+  const [{user}] = useCookies(['user']);
   return (
     <>
         <ul className="NavList">

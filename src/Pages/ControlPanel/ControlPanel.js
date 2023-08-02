@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import Table from '../../Components/ControlPanel/Table';
 import AddUser from '../../Components/ControlPanel/AddUser';
 import AdminPanel from '../../Components/ControlPanel/AdminPanel';
+import { useCookies } from 'react-cookie';
 const ControlPanel = () => {
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
+  const [{user}] = useCookies(['user']);
   const navigate = useNavigate();
     useEffect(() => {
         if (!user || user.data.role !== "Admin") {

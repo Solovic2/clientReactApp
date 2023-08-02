@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import "./RegistrationForm.css"
 import { Link, useNavigate  } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 function RegistrationForm() {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [sameUsername, setSameUserName] = useState(false)
   const navigate = useNavigate();
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
-
+  const [{cookie}, setCookie] = useCookies(['user']);
   useEffect(() => {
-    if (user) {
+    if (cookie) {
       // Redirect to login page if user data is not available
       navigate("/");
       return;
     }
-  }, [user, navigate])
+  }, [cookie, navigate])
 
-  if (user) {
+  if (cookie) {
     return null;
   }
   const handleSubmit = async (event) => {
@@ -42,7 +42,7 @@ function RegistrationForm() {
     }else{
       setSameUserName(false)
       const userData = await response.json();
-      sessionStorage.setItem('storedUser', JSON.stringify(userData));
+      setCookie('user' , JSON.stringify(userData))
       navigate("/",{
         state: { user: userData },
       })
