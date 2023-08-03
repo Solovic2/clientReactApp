@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
-
+import { useCookies } from 'react-cookie';
 function FilterCards(props) {
   const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
   const [showForm, setShowForm] = useState({});
   const [cardClass, setCardClass] = useState('card')
-  const user = sessionStorage.getItem('storedUser') ? JSON.parse(sessionStorage.getItem('storedUser')) : sessionStorage.getItem('storedUser');
-
+  const [{user}] = useCookies(['user']);
   useEffect(() => {
     if(user){
       setCardClass(user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card");
