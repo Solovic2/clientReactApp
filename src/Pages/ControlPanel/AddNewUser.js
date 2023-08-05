@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./AddNewUser.css"
 import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
+import AddEditForm from '../../Components/ControlPanel/AddEditForm';
 const AddNewUser = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -55,31 +56,9 @@ const AddNewUser = () => {
   }
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">إسم المستخدم :</label>
-          <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">كلمة السر :</label>
-          <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="role">دور المستخدم : </label>
-          <select id="role" value={role} onChange={e => setRole(e.target.value)}>
-            <option value="User">مستخدم</option>
-            <option value="Manager">مدير</option>
-            <option value="Admin">أدمن النظم</option>
-          </select>
-        </div>
-        <button type="submit">إضافة مستخدم جديد</button>
-        {error  && <div className="alert alert-primary pop" role="alert">
-        {error}
-      </div>
-      }
-      </form>
-    </div>
+   <>
+      <AddEditForm username = {username} setUsername = {setUsername} password= {password} setPassword = {setPassword} role = {role} setRole = {setRole} handleSubmit = {handleSubmit} error = {error}/>
+   </>
   );
 }
 

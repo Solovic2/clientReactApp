@@ -1,6 +1,8 @@
 import React from 'react'
 import "./AddUser.css"
 import { useNavigate } from 'react-router'
+import Button from '../../Components/ControlPanel/Button';
+
 const AddUser = () => {
     const navigate = useNavigate();
     const handleClick = () => {
@@ -12,8 +14,8 @@ const AddUser = () => {
   return (
     <>
         <div className='navbar-buttons'>
-            <button type="button" className="btn btn-primary add-new-member" onClick={handleClick}>إضافة مستخدم جديد</button>
-            <button type="button" className="btn btn-primary" onClick={handleBack}>العودة للصفحة الرئيسية</button>
+            <Button handleClick = {handleClick} className = "btn btn-primary add-new-member" body = "إضافة مستخدم جديد"/>
+            <Button handleClick = {handleBack} className = "btn btn-primary" body = "العودة للصفحة الرئيسية"/>
         </div>
     </>
   )

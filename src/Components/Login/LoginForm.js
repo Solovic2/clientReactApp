@@ -1,4 +1,4 @@
-import React, {  useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import "./LoginForm.css"
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -8,11 +8,11 @@ function LoginForm() {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
-  const [{cookie}, setCookie] = useCookies(['user']);
+  const [{ cookie }, setCookie] = useCookies(['user']);
 
 
   useEffect(() => {
-    
+
     if (cookie) {
       // Redirect to login page if user data is not available
       navigate("/");
@@ -23,7 +23,7 @@ function LoginForm() {
   if (cookie) {
     return null;
   }
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = {
@@ -44,17 +44,17 @@ function LoginForm() {
     if (!response.ok) {
       const errorData = await response.json();
       setError(errorData.error);
-    }else{
+    } else {
       const userData = await response.json();
       setCookie('user', JSON.stringify(userData));
-      navigate("/",{
+      navigate("/", {
         state: { user: userData },
       })
     }
   };
 
   return (
-    <form className="login-form"onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
       <label>
         إسم المستخدم:
         <input
@@ -72,18 +72,18 @@ function LoginForm() {
         />
       </label>
       <button type="submit">Login</button>
-      {error  && <div className="alert alert-primary pop" role="alert">
+      {error && <div className="alert alert-primary pop" role="alert">
         {error}
       </div>
       }<div>
-      لا تملك حسابًا وتريد بعمل حساب جديد؟ <Link to="/register">التسجيل</Link>
-    </div>
+        لا تملك حسابًا وتريد بعمل حساب جديد؟ <Link to="/register">التسجيل</Link>
+      </div>
     </form>
-  ); 
-  
-  
+  );
 
-  
+
+
+
 }
 
 export default LoginForm;

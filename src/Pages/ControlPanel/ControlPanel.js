@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import "./ControlPanel.css"
 import { useNavigate } from 'react-router-dom';
 import Table from '../../Components/ControlPanel/Table';
-import AddUser from '../../Components/ControlPanel/AddUser';
+import AddUser from './AddUser';
 import AdminPanel from '../../Components/ControlPanel/AdminPanel';
 import { useCookies } from 'react-cookie';
 const ControlPanel = () => {
