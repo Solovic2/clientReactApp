@@ -149,12 +149,8 @@ function FilterCards(props) {
     <div className="card-container hide-scrollbar" ref={cardContainerRef}>
       {props.data?.map((element, index) => {
         let audioElement = null;
-        let path = "";
-        if (element.mobile !== null && element.mobile !== "") {
-          path = `${element.mobile}-${element.fileDate}.${element.fileType}`;
-        } else {
-          path = `${element.fileDate}.${element.fileType}`;
-        }
+        let fullPath = element.path.split("\\");
+        const path = fullPath[fullPath.length - 1]
         if (element.fileType === "wav") {
           audioElement = (
             <div className="audio">
