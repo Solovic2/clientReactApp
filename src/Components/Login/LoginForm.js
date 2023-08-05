@@ -61,6 +61,7 @@ function LoginForm() {
           type="text"
           value={username}
           onChange={(event) => setUserName(event.target.value)}
+          required
         />
       </label>
       <label>
@@ -69,6 +70,7 @@ function LoginForm() {
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          required
         />
       </label>
       <button type="submit">Login</button>

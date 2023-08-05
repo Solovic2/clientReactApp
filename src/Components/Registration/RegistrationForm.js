@@ -62,6 +62,7 @@ function RegistrationForm() {
               type="text"
               value={username}
               onChange={(event) => setUserName(event.target.value)}
+              required
             />
           </label>
 
@@ -71,6 +72,7 @@ function RegistrationForm() {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              required
             />
           </label>
           <button type="submit">Register</button>
