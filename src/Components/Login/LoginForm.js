@@ -73,7 +73,7 @@ function LoginForm() {
           required
         />
       </label>
-      <button type="submit">Login</button>
+      <button type="submit">الدخول</button>
       {error && <div className="alert alert-primary pop" role="alert">
         {error}
       </div>

@@ -75,7 +75,7 @@ function RegistrationForm() {
               required
             />
           </label>
-          <button type="submit">Register</button>
+          <button type="submit">تسجيل الدخول</button>
           {sameUsername && <div className="alert alert-primary pop" role="alert">
             هذا المستخدم موجود مسبقاً
           </div>
