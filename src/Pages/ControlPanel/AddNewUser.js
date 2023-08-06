@@ -57,6 +57,10 @@ const AddNewUser = () => {
 
   return (
    <>
+   <div className='logo'>
+    <img src={process.env.PUBLIC_URL + '/logo.png'} className="img-responsive" alt="logo"/>
+   </div>
+      
       <AddEditForm username = {username} setUsername = {setUsername} password= {password} setPassword = {setPassword} role = {role} setRole = {setRole} handleSubmit = {handleSubmit} error = {error}/>
    </>
   );

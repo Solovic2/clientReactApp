@@ -1,6 +1,18 @@
+.NavList {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .NavList li {
+    padding: 10px;
+    box-sizing: border-box;
+  }
 .navbar-buttons{
-    margin-top :20px
+    margin-top :20px;
 }
+
 .add-new-member{
-    float: right;
+    margin-left: 10px;
 }

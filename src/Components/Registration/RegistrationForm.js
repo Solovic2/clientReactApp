@@ -53,6 +53,10 @@ function RegistrationForm() {
   }
   return (
     <>
+      <div className='cover'>
+        <div className='title'>تسجيل حساب جديد</div>
+        <img src={process.env.PUBLIC_URL + '/logo.png'} className="img-responsive" alt="logo"/>
+      </div>
       <div className="register-form">
         <form onSubmit={handleSubmit}>
           <label>
@@ -75,7 +79,7 @@ function RegistrationForm() {
               required
             />
           </label>
-          <button type="submit">تسجيل الدخول</button>
+          <button type="submit">سجل الآن!</button>
           {sameUsername && <div className="alert alert-primary pop" role="alert">
             هذا المستخدم موجود مسبقاً
           </div>

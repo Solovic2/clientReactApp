@@ -5,3 +5,6 @@
     direction: rtl;
     text-align: center;
   }
+  .contolePanel button{
+    margin-left: 10px;
+  }

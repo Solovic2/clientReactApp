@@ -1,8 +1,24 @@
+.cover{
+  text-align: center;
+  height: 100px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  direction: rtl;
+}
+.cover .title{
+  padding: 20px;
+  font-size: 30px;
+}
+.cover img{
+  height: 100%;
+  text-align: center;
+}
 .login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 20px;
     direction: rtl;
   }
   .login-form .pop{
@@ -26,9 +42,11 @@
 .login-form button {
     padding: 10px;
     font-size: 18px;
-    background-color: #4CAF50;
+    background-color: #009578;
     color: white;
     border: none;
+    border-radius: 10px;
     margin-top: 20px;
+    margin-bottom: 10px;
   }
   

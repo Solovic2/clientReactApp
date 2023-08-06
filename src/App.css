@@ -1,9 +1,19 @@
 .App {
   text-align: center;
 }
-/* .body{
-  background-color: #282c34;
-} */
+.logo{
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right:20px;
+  height: 100px ;
+  padding: 10px;
+    box-sizing: border-box;
+}
+.logo img{
+  height: 100%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

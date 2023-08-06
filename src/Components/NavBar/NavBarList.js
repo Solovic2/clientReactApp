@@ -19,6 +19,9 @@ const NavBarList = () => {
                     <li><Button className = "btn btn-primary" handleClick = {handleClick} body = "لوحة التحكم "/></li>
                 )
             }
+            <li className='logo'>
+              <img src={process.env.PUBLIC_URL + '/logo.png'} className="img-responsive" alt="logo"/>
+            </li>
         </ul>
     </>
   )

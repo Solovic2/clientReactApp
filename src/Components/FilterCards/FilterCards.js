@@ -6,12 +6,15 @@ function FilterCards(props) {
   const infoContainerRef = useRef(null);
   const [showForm, setShowForm] = useState({});
   const [cardClass, setCardClass] = useState('card')
+  const [cardContainerClass, setCardContainerClass] = useState('card-container hide-scrollbar')
   const [{user}] = useCookies(['user']);
   useEffect(() => {
     if(user){
       setCardClass(user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card");
+      setCardContainerClass(user.data.role === "Admin" ? "card-container hide-scrollbar" :  user.data.role === "Manager" ? "card-container hide-scrollbar card-container-manager" : user.data.role === "User" ? "card-container hide-scrollbar card-container-user"  : "card-container hide-scrollbar")
     }else{
       setCardClass('card')
+      setCardContainerClass('card-container hide-scrollbar')
     }
   
   }, [user])
@@ -146,7 +149,7 @@ function FilterCards(props) {
   };
 
   return (
-    <div className="card-container hide-scrollbar" ref={cardContainerRef}>
+    <div className={cardContainerClass} ref={cardContainerRef}>
       {props.data?.map((element, index) => {
         let audioElement = null;
         let fullPath = element.path.split("\\");

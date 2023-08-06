@@ -13,9 +13,9 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     font-size: 16px;
 }
-.btn{
+.searchBar .btn{
   margin-right:10px;
-  color:#fff !important;
+  color:#1f1c1c !important;
   font-weight: bold !important;
   
 }

@@ -54,33 +54,40 @@ function LoginForm() {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <label>
-        إسم المستخدم:
-        <input
-          type="text"
-          value={username}
-          onChange={(event) => setUserName(event.target.value)}
-          required
-        />
-      </label>
-      <label>
-        كلمة السر:
-        <input
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">الدخول</button>
-      {error && <div className="alert alert-primary pop" role="alert">
-        {error}
+    <>
+      <div className='cover'>
+        <div className='title'>تسجيل الدخول</div>
+        <img src={process.env.PUBLIC_URL + '/logo.png'} className="img-responsive" alt="logo"/>
       </div>
-      }<div>
-        لا تملك حسابًا وتريد بعمل حساب جديد؟ <Link to="/register">التسجيل</Link>
-      </div>
-    </form>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label>
+          إسم المستخدم:
+          <input
+            type="text"
+            value={username}
+            onChange={(event) => setUserName(event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          كلمة السر:
+          <input
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+        </label>
+        <button type="submit">تسجيل الدخول</button>
+        {error && <div className="alert alert-primary pop" role="alert">
+          {error}
+        </div>
+        }<div>
+          لا تملك حسابًا وتريد بعمل حساب جديد؟ <Link to="/register">التسجيل</Link>
+        </div>
+      </form>
+    </>
+
   );
 
 
