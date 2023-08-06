@@ -60,7 +60,7 @@ function FilterCards(props) {
 
   // Show Shakwa When Press The Button
   const handleClick = async (path) => {
-    fetch(`http://localhost:9000/file/${path}`, {credentials: 'include',})
+    fetch(`http://128.36.1.71:9000/file/${path}`, {credentials: 'include',})
       .then((response) => response.text())
       .then((fileContents) => {
         // Create popup window
@@ -77,7 +77,7 @@ function FilterCards(props) {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:9000/delete-complain/${id}`,
+        `http://128.36.1.71:9000/delete-complain/${id}`,
         {
           method: "DELETE",
           credentials: 'include',
@@ -108,7 +108,7 @@ function FilterCards(props) {
       try {
         console.log(inputValue);
         const response = await fetch(
-          `http://localhost:9000/update-complain/${id}`,
+          `http://128.36.1.71:9000/update-complain/${id}`,
           {
             method: "POST",
             headers: {
@@ -158,7 +158,7 @@ function FilterCards(props) {
           audioElement = (
             <div className="audio">
               <label className="audio-float"> :سماع الشكوى</label>
-              <audio controls src={`http://localhost:9000/audio/${path}`} />
+              <audio controls src={`http://128.36.1.71:9000/audio/${path}`} />
             </div>
           );
         } else {

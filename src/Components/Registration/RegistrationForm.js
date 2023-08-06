@@ -27,7 +27,7 @@ function RegistrationForm() {
       password: password,
     };
     const response = await fetch(
-      `http://localhost:9000/register`,
+      `http://128.36.1.71:9000/register`,
       {
         method: "POST",
         headers: {

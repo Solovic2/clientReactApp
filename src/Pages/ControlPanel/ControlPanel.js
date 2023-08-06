@@ -21,7 +21,7 @@ const ControlPanel = () => {
 
   useEffect(() => {
 
-    fetch("http://localhost:9000/admin/users", {
+    fetch("http://128.36.1.71:9000/admin/users", {
       credentials: 'include'
     }).then(response => {
       if (response.ok) {
@@ -52,7 +52,7 @@ const ControlPanel = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        "http://localhost:9000/admin-delete/" + id,
+        "http://128.36.1.71:9000/admin-delete/" + id,
         {
           method: "DELETE",
           credentials: 'include',

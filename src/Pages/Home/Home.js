@@ -27,7 +27,7 @@ function Home() {
   
   // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
   useEffect(() => {
-    fetch("http://localhost:9000/",{
+    fetch("http://128.36.1.71:9000/",{
       credentials: 'include'
     })
     .then(response => {
@@ -50,7 +50,7 @@ function Home() {
       navigate("/login");
     })
 
-    const ws = new WebSocket('ws://localhost:8000');
+    const ws = new WebSocket('ws://128.36.1.71:8000');
 
     ws.addEventListener('open', () => {
       console.log('WebSocket connection opened');

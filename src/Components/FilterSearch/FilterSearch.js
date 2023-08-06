@@ -15,7 +15,7 @@ const FilterSearch = (props) => {
       const month = String(currentDate.getMonth() + 1).padStart(2, '0');
       const year = currentDate.getFullYear();
       const formattedDate = `${day}-${month}-${year}`;
-      fetch(`http://localhost:9000/dateToday/${formattedDate}` , {credentials: 'include'})
+      fetch(`http://128.36.1.71:9000/dateToday/${formattedDate}` , {credentials: 'include'})
         .then((response) => response.json())
         .then((data) => {
           setPrevData(props.getValuesData)
