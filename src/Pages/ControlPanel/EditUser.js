@@ -22,7 +22,7 @@ const EditUser = () => {
     }
   }, [user, navigate]);
   useEffect(() => {
-    fetch(`http://128.36.1.71:9000/admin/edit/${params.id}`,{
+    fetch(`http://localhost:9000/admin/edit/${params.id}`,{
         credentials: 'include'
       })
       .then(response => {
@@ -60,7 +60,7 @@ const EditUser = () => {
     }
     try {
       const response = await fetch(
-        `http://128.36.1.71:9000/admin/update/${params.id}`,
+        `http://localhost:9000/admin/update/${params.id}`,
         {
           method: "POST",
           headers: {

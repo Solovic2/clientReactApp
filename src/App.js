@@ -9,11 +9,14 @@ import ControlPanel from './Pages/ControlPanel/ControlPanel';
 import AddNewUser from './Pages/ControlPanel/AddNewUser';
 import EditUser from './Pages/ControlPanel/EditUser';
 import { CookiesProvider } from 'react-cookie';
+import { Provider } from 'react-redux';
+import store from './Redux/state';
 function App() {
 
   return (
     <>
       <CookiesProvider>
+        <Provider store={store}>
             <Router>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -25,6 +28,7 @@ function App() {
                 <Route path="*" element={<NoPage />} />
               </Routes>
             </Router>
+          </Provider>
       </CookiesProvider>
     </>
   );

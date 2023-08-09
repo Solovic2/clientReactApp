@@ -1,27 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
 import { useCookies } from 'react-cookie';
-function FilterCards(props) {
+function FilterCards({ data, setFilterData, setValues, notify }) {
   const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
   const [showForm, setShowForm] = useState({});
   const [cardClass, setCardClass] = useState('card')
   const [cardContainerClass, setCardContainerClass] = useState('card-container hide-scrollbar')
-  const [{user}] = useCookies(['user']);
+  const [{ user }] = useCookies(['user']);
+  
   useEffect(() => {
-    if(user){
-      setCardClass(user.data.role === "Admin" ? "card card-admin" :  user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user"  : "card");
-      setCardContainerClass(user.data.role === "Admin" ? "card-container hide-scrollbar" :  user.data.role === "Manager" ? "card-container hide-scrollbar card-container-manager" : user.data.role === "User" ? "card-container hide-scrollbar card-container-user"  : "card-container hide-scrollbar")
-    }else{
+    if (user) {
+      setCardClass(user.data.role === "Admin" ? "card card-admin" : user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user" : "card");
+      setCardContainerClass(user.data.role === "Admin" ? "card-container hide-scrollbar" : user.data.role === "Manager" ? "card-container hide-scrollbar card-container-manager" : user.data.role === "User" ? "card-container hide-scrollbar card-container-user" : "card-container hide-scrollbar")
+    } else {
       setCardClass('card')
       setCardContainerClass('card-container hide-scrollbar')
     }
-  
-  }, [user])
-  
- 
 
-  
+  }, [user])
+
+
+
+
   // Show ScrollBar When There Are Elements Fit The Height Of The ScrollBar Or Hide It When No Element Fit The Height
   useEffect(() => {
     const cardContainer = cardContainerRef.current;
@@ -60,7 +61,7 @@ function FilterCards(props) {
 
   // Show Shakwa When Press The Button
   const handleClick = async (path) => {
-    fetch(`http://128.36.1.71:9000/file/${path}`, {credentials: 'include',})
+    fetch(`http://localhost:9000/file/${path}`, { credentials: 'include', })
       .then((response) => response.text())
       .then((fileContents) => {
         // Create popup window
@@ -74,31 +75,27 @@ function FilterCards(props) {
   };
 
   // Handle Delete
-  const handleDelete = async (id) => {
+  const handleDelete = async (path) => {
     try {
       const response = await fetch(
-        `http://128.36.1.71:9000/delete-complain/${id}`,
+        `http://localhost:9000/delete-complain/${encodeURI(path)}`,
         {
-          method: "DELETE",
+          method: "POST",
           credentials: 'include',
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to delete card");
+        throw new Error("Failed to hide card");
       }
-
-      props.setValuesData((prevData) =>
-        prevData.filter((card) => card.id !== id)
-      );
-
-      console.log(props.data)
+      setFilterData((prevValues) => prevValues.filter(card => card.path !== path));
+      notify(2, prev=>prev - 1);
       // Remove the deleted card from the state
     } catch (error) {
       console.error("Error deleting card:", error);
     }
   };
   // Handle When Submit
-  const handleSubmit = async (event, id) => {
+  const handleSubmit = async (event, path) => {
     event.preventDefault(); // prevent default form submission behavior
     const inputValue = event.target.elements.infoInput.value;
     if (inputValue !== "") {
@@ -108,7 +105,7 @@ function FilterCards(props) {
       try {
         console.log(inputValue);
         const response = await fetch(
-          `http://128.36.1.71:9000/update-complain/${id}`,
+          `http://localhost:9000/update-complain/${encodeURI(path)}`,
           {
             method: "POST",
             headers: {
@@ -122,9 +119,9 @@ function FilterCards(props) {
         if (!response.ok) {
           throw new Error("Failed to delete card");
         }
-        props.setValuesData((prevData) => {
+        setValues((prevData) => {
           const updatedData = prevData.map((card) => {
-            if (card.id === id) {
+            if (card.path === path) {
               return { ...card, info: inputValue };
             }
             return card;
@@ -136,21 +133,21 @@ function FilterCards(props) {
       }
       setShowForm((prevShowForm) => ({
         ...prevShowForm,
-        [id]: false,
+        [path]: false,
       }));
     }
   };
   // Handle Edit Reply Submit
-  const handleEdit = (id) => {
+  const handleEdit = (path) => {
     setShowForm((prevShowForm) => ({
       ...prevShowForm,
-      [id]: !prevShowForm[id],
+      [path]: !prevShowForm[path],
     }));
   };
 
   return (
     <div className={cardContainerClass} ref={cardContainerRef}>
-      {props.data?.map((element, index) => {
+      {data?.map((element, index) => {
         let audioElement = null;
         let fullPath = element.path.split("\\");
         const path = fullPath[fullPath.length - 1]
@@ -158,12 +155,13 @@ function FilterCards(props) {
           audioElement = (
             <div className="audio">
               <label className="audio-float"> :سماع الشكوى</label>
-              <audio controls src={`http://128.36.1.71:9000/audio/${path}`} />
+              <audio
+                controls src={`http://localhost:9000/audio/${path}`} />
             </div>
           );
         } else {
           audioElement = (
-            <div className="button"> 
+            <div className="button">
               <button
                 className="btn btn-primary"
                 onClick={() => handleClick(path)}
@@ -176,7 +174,7 @@ function FilterCards(props) {
 
 
         return (
-          <div key={element.id} className={cardClass}>
+          <div key={index} className={cardClass}>
             <div className="mobile">
               <label className="card-label">
                 {element.mobile || "UnKnown"}
@@ -185,62 +183,63 @@ function FilterCards(props) {
             </div>
             <div className="file-date">
               <label className="card-label">
-              {element.fileDate}
-              <span className="card-info"> :تاريخ الشكوى</span>
-            </label>
+                {element.fileDate}
+                <span className="card-info"> :تاريخ الشكوى</span>
+              </label>
             </div>
             <div className="audio-element">{audioElement}</div>
-             { user && (user.data.role === "Admin") && ( 
-               <div className="deleteBtn">
-               <button
-                 className="btn btn-danger"
-                 onClick={() => handleDelete(element.id)}
-               >
-                 <i className="fa-solid fa-trash"></i>
-               </button>
-             </div>
-            )} 
-           
-           { user && (user.data.role === "Admin" || user.data.role === "Manager") && (
-            <>
-              {element.info !== null && element.info !== "" && (
+            {user && (user.data.role === "Admin") && (
+              <div className="deleteBtn">
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(element.path)}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            )}
+
+            {user && (user.data.role === "Admin" || user.data.role === "Manager") && (
+              <>
+                {
+                element.info !== null && element.info !== "" && (
                   <div className="reply-and-edit">
                     <div className="scrollable-container" ref={infoContainerRef}>
                       <label>الرد :</label>
                       <div className="scrollable-content">{element.info}</div>
                     </div>
                   </div>
-              )}
-              {element.info !== null && element.info !== "" && (
-                <div className="edit-button">
-                  <button onClick={() => handleEdit(element.id)}>
-                    {showForm[element.id] ? "Cancel" : "Edit"}
-                  </button>
-                </div>
-              )}
-              {(element.info === null ||
-                element.info === "" ||
-                showForm[element.id]) && (
-                <div className="form-submit">
-                  <form
-                    onSubmit={(event) => handleSubmit(event, element.id)}
-                    className="d-flex justify-content-between w-100"
-                  >
-                    <input
-                      type="text"
-                      name="infoInput"
-                      className="my-input mr-2"
-                      placeholder="الرد"
-                      defaultValue={element.info}
-                    />
-                    <button type="submit" className="btn btn-sm btn-success">
-                      {showForm[element.id] ? "تعديل" : "إضافة رد"}
+                )}
+                {element.info !== null && element.info !== "" && (
+                  <div className="edit-button">
+                    <button onClick={() => handleEdit(element.path)}>
+                      {showForm[element.path] ? "Cancel" : "Edit"}
                     </button>
-                  </form>
-                </div>
-              )}
-            </>
-            )} 
+                  </div>
+                )}
+                {(element.info === null ||
+                  element.info === "" ||
+                  showForm[element.path]) && (
+                    <div className="form-submit">
+                      <form
+                        onSubmit={(event) => handleSubmit(event, element.path)}
+                        className="d-flex justify-content-between w-100"
+                      >
+                        <input
+                          type="text"
+                          name="infoInput"
+                          className="my-input mr-2"
+                          placeholder="الرد"
+                          defaultValue={element.info}
+                        />
+                        <button type="submit" className="btn btn-sm btn-success">
+                          {showForm[element.path] ? "تعديل" : "إضافة رد"}
+                        </button>
+                      </form>
+                    </div>
+                  )}
+              </>
+            )}
           </div>
         );
       })}

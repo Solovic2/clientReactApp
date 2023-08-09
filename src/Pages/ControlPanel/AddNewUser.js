@@ -29,7 +29,7 @@ const AddNewUser = () => {
     }
     try {
       const response = await fetch(
-        `http://128.36.1.71:9000/admin/addUser`,
+        `http://localhost:9000/admin/addUser`,
         {
           method: "POST",
           headers: {

@@ -1,21 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
-export const userSlice = createSlice({
-  name: 'user',
+export const monthYearSlice = createSlice({
+  name: 'monthYear',
   initialState :{
-    user: null,
+    monthYear: '',
   },
   reducers: {
-    addUser: (state, action) => {
-        state.user =  action.payload
+    setMonthYear: (state, action) => {
+        state.monthYear =  action.payload
     },
-    removeUser: (state) => {
-        state.user =  null
-    },
-   
+    
   },
 })
 
-// Action creators are generated for each case reducer function
-export const { addUser, removeUser } = userSlice.actions
 
-export default userSlice.reducer
+
+// Action creators are generated for each case reducer function
+export const { setMonthYear } = monthYearSlice.actions
+
+export default monthYearSlice.reducer

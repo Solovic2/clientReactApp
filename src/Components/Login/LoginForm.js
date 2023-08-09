@@ -31,7 +31,7 @@ function LoginForm() {
       password: password,
     };
     const response = await fetch(
-      `http://128.36.1.71:9000/login`,
+      `http://localhost:9000/login`,
       {
         method: "POST",
         headers: {
