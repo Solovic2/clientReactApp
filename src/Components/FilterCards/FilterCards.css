@@ -3,7 +3,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: 360px;   /* Set a fixed height for the container */
+    height: 500px;   /* Set a fixed height for the container */
     overflow-y: scroll;  /* Add a scrollbar for overflow content */
 }
 .card-container-user{
@@ -171,8 +171,15 @@
 }
 
 /* Hide the scrollbar when there is no overflow content */
-.card-container.hide-scrollbar::-webkit-scrollbar {
-    width: 0;
+.card-container.hide-scrollbar::-webkit-scrollbar,
+.card-container.hide-scrollbar::-webkit-scrollbar-track{
+    width: 0px;
     background-color: transparent;
     display: none;
 }
+
+@media screen and (min-width: 768px) {
+    .card-container{
+        height: 500px ;
+    }
+  }

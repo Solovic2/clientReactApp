@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
 import { useCookies } from 'react-cookie';
+import AudioPlayer from "../Audio/AudioPlayer";
 function FilterCards({ data, setFilterData, setValues, notify }) {
   const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
+  const [playingCard, setPlayingCard] = useState(null);
   const [showForm, setShowForm] = useState({});
   const [cardClass, setCardClass] = useState('card')
   const [cardContainerClass, setCardContainerClass] = useState('card-container hide-scrollbar')
@@ -26,19 +28,23 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
   // Show ScrollBar When There Are Elements Fit The Height Of The ScrollBar Or Hide It When No Element Fit The Height
   useEffect(() => {
     const cardContainer = cardContainerRef.current;
+    const firstChild = cardContainer.firstChild;
     function toggleScrollbar() {
-      if (cardContainer.scrollHeight > cardContainer.clientHeight) {
-        cardContainer.classList.remove("hide-scrollbar");
-      } else {
-        cardContainer.classList.add("hide-scrollbar");
-      }
+      if(firstChild){
+        if (cardContainer.scrollHeight > (firstChild.scrollHeight + 157))  // 157 is the difference between the card and cardContainer
+        {
+          cardContainer.classList.remove("hide-scrollbar");
+        } else {
+          cardContainer.classList.add("hide-scrollbar");
+        }
+      } 
     }
     window.addEventListener("resize", toggleScrollbar);
     toggleScrollbar();
     return () => {
       window.removeEventListener("resize", toggleScrollbar);
     };
-  }, []);
+  }, [data]);
   // Show ScrollBar When There Are Elements Fit The Width Of The ScrollBar Or Hide It When No Element Fit The Width
   useEffect(() => {
     const infoContainer = infoContainerRef.current;
@@ -144,7 +150,9 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
       [path]: !prevShowForm[path],
     }));
   };
-
+  const handleEnded = () => {
+    setPlayingCard(null);
+  }
   return (
     <div className={cardContainerClass} ref={cardContainerRef}>
       {data?.map((element, index) => {
@@ -155,8 +163,7 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
           audioElement = (
             <div className="audio">
               <label className="audio-float"> :سماع الشكوى</label>
-              <audio
-                controls src={`http://localhost:9000/audio/${path}`} />
+              <AudioPlayer src={`http://localhost:9000/audio/${path}`} playingCard={playingCard} setPlayingCard={setPlayingCard}  />
             </div>
           );
         } else {
@@ -174,7 +181,7 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
 
 
         return (
-          <div key={index} className={cardClass}>
+          <div key={index} id="card" className={cardClass} >
             <div className="mobile">
               <label className="card-label">
                 {element.mobile || "UnKnown"}

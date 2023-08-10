@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./FilterSearch.css"
 import { useNavigate } from 'react-router';
-import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { setMonthYear } from '../../Redux/userSlice';
 const FilterSearch = (props) => {
@@ -12,7 +11,7 @@ const FilterSearch = (props) => {
   const [monthsLoaded, setMonthsLoaded] = useState(false);
   const [monthSelector, setMonthSelector] = useState([]);
   const navigate = useNavigate()
-  const { setValues, setFilterData} = props;
+  const { setValues, setFilterData } = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const FilterSearch = (props) => {
   }, [monthsLoaded, monthSelector])
 
   useEffect(() => {
-    if (selectedMonth.length > 0) {
+    if (selectedMonth.length > 0 && selectedMonth.length> 0) {
       const yearMonthPath = selectedYear + "\\" + selectedMonth;
       const encodedPath = encodeURI(yearMonthPath);
       dispatch(setMonthYear(yearMonthPath))
@@ -58,6 +57,9 @@ const FilterSearch = (props) => {
           console.error(error);
           navigate("/login");
         });
+    }else{
+      setValues([]);
+      setFilterData([]);
     }
 
   }, [selectedMonth, navigate]);
@@ -85,52 +87,49 @@ const FilterSearch = (props) => {
         console.error(error.message);
       })
   }
-  const handleClick = useMemo(() => {
-    return async (event) => {
-      event.preventDefault();
-      setIsToggled(!isToggled);
-      if (!isToggled) {
-        // execute function when button is toggled on
-        const currentDate = new Date();
-        const day = String(currentDate.getDate()).padStart(2, '0');
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const year = currentDate.getFullYear();
-        const formattedDate = `${day}-${month}-${year}`;
+  const handleClick = async (event) => {
+    event.preventDefault();
+    setIsToggled(!isToggled);
+    if (!isToggled) {
+      // execute function when button is toggled on
+      const currentDate = new Date();
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
 
-        fetch(`http://localhost:9000/dateToday/${formattedDate}`, { credentials: 'include' })
-          .then((response) => response.json())
-          .then((data) => {
-            setFilterData(data);
-          });
-      } else {
-        const yearMonthPath = selectedYear + "\\" + selectedMonth;
-        const encodedPath = encodeURI(yearMonthPath);
-        fetch("http://localhost:9000/" + encodedPath, {
-          credentials: 'include'
-        })
-          .then(async response => {
-            if (!response.ok) {
-              if (response.status === 401) {
-                throw new Error('You are not authenticated');
-              } else {
-                throw new Error('Error fetching data');
-              }
-            }
+      fetch(`http://localhost:9000/dateToday/${formattedDate}`, { credentials: 'include' })
+        .then((response) => response.json())
+        .then((data) => {
+          setFilterData(data);
+        });
+    } else {
+      const yearMonthPath = selectedYear + "\\" + selectedMonth;
+      const encodedPath = encodeURI(yearMonthPath);
+      fetch("http://localhost:9000/" + encodedPath, {
+        credentials: 'include'
+      }).then(async response => {
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error('You are not authenticated');
+          } else {
+            throw new Error('Error fetching data');
+          }
+        }
 
-            const data = await response.json();
-            if (data) {
-              setValues(data);
-              setFilterData(data);
-              setIsToggled(false);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            navigate("/login");
-          });
-      }
-    };
-  }, [isToggled, selectedYear, selectedMonth]);
+        const data = await response.json();
+        if (data) {
+          setValues(data);
+          setFilterData(data);
+          setIsToggled(false);
+        }
+      })
+        .catch(error => {
+          console.error(error);
+          navigate("/login");
+        });
+    }
+  };
 
   const getMonthFolders = (event) => {
     setSelectedYear(event.target.value)
@@ -143,34 +142,40 @@ const FilterSearch = (props) => {
   return (
     <>
       <div className='searchBar'>
+
         <button className='btn btn-info toggleBtn' onClick={handleClick}>{isToggled ? "رجوع" : "شكاوي اليوم"}</button>
         <input className="search" type="search" placeholder="Search" onChange={props.handleChange} />
-        <select className='selector' onChange={getMonthFolders}>
 
-          {props.yearSelector.map(element => {
+        <div className="selector">
+          <select onChange={getData}>
 
-            return (
-              <option
-                key={`year-${element}`}
-                value={element}
-              >{element}</option>
-            )
+            {monthSelector?.map(element => {
 
-          })}
-        </select>
-        <select className='selector' onChange={getData}>
+              return (
+                <option
+                  key={`month-${element}`}
+                  value={element}
+                >{element}</option>
+              )
 
-          {monthSelector?.map(element => {
+            })}
+          </select>
+        </div>
+        <div className="selector">
+          <select onChange={getMonthFolders}>
 
-            return (
-              <option
-                key={`month-${element}`}
-                value={element}
-              >{element}</option>
-            )
+            {props.yearSelector.map(element => {
 
-          })}
-        </select>
+              return (
+                <option
+                  key={`year-${element}`}
+                  value={element}
+                >{element}</option>
+              )
+
+            })}
+          </select>
+        </div>
       </div>
     </>
   )

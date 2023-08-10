@@ -24,3 +24,5 @@ npm i redux-persist
 npm i react-redux
 
 npm install react-cookie
+
+npm install --save @fortawesome/fontawesome-free

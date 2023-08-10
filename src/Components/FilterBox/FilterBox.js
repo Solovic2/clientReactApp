@@ -36,7 +36,7 @@ const FilterBox = ({notify}) => {
         } else if (message.type === 'delete') {
           if(message.month_year === monthYear){
             setFilterData((prevValues) => prevValues.filter(data => data.path !== message.data.path));
-            notify(1, prev => prev - 1)
+            notify(2, prev => prev - 1)
           }
         } else {
           console.warn('Received unknown message type:', message.type);
