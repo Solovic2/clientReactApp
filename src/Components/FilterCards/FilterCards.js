@@ -150,9 +150,7 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
       [path]: !prevShowForm[path],
     }));
   };
-  const handleEnded = () => {
-    setPlayingCard(null);
-  }
+
   return (
     <div className={cardContainerClass} ref={cardContainerRef}>
       {data?.map((element, index) => {

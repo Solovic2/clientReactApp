@@ -14,7 +14,6 @@ const FilterBox = ({notify}) => {
   const [filterData, setFilterData] = useState([]);
   const [eventAction, setEventAction] = useState();
   const [yearSelector, setYearSelector] = useState([process.env.REACT_APP_DEFAULT_YEAR]);
-  
     // Get Data From Database And Use WebSocket To Listen When File Added Or Deleted
     useEffect(() => {
       const ws = new WebSocket('ws://localhost:8000');
