@@ -1,13 +1,9 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { useRef } from 'react';
 
 const AudioPlayer = ({src, playingCard, setPlayingCard}) => {
-  const audio = useRef(null); 
-  useEffect(() => {
-    audio.current = new Audio(src);
-  }, [src]);
-  
+
+  const audio = useRef(new Audio(src)); 
   const play = () => {
     if(playingCard) {
       playingCard.pause(); 
