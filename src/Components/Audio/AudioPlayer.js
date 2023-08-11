@@ -2,8 +2,10 @@ import React from 'react';
 import { useRef } from 'react';
 
 const AudioPlayer = ({src, playingCard, setPlayingCard}) => {
-
-  const audio = useRef(new Audio(src)); 
+  const audio = useRef();
+  if (!audio.current) {
+    audio.current = new Audio(src);
+  } 
   const play = () => {
     if(playingCard) {
       playingCard.pause(); 
@@ -20,4 +22,4 @@ const AudioPlayer = ({src, playingCard, setPlayingCard}) => {
   );
 }
 
-export default AudioPlayer;
+export default React.memo(AudioPlayer);
