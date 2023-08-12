@@ -1,19 +1,6 @@
-.cover{
-  text-align: center;
-  height: 100px;
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  direction: rtl;
-}
-.cover .title{
-  padding: 20px;
-  font-size: 30px;
-}
-.cover img{
-  height: 100%;
-  text-align: center;
-}
+
+
+
 .login-form {
     display: flex;
     flex-direction: column;

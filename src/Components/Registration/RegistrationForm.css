@@ -1,19 +1,24 @@
-cover{
+.cover{
   text-align: center;
   height: 100px;
   margin-top: 30px;
-  display: flex;
-  justify-content: center;
   direction: rtl;
-}
-.cover .title{
-  padding: 20px;
-  font-size: 30px;
 }
 .cover img{
   height: 100%;
   text-align: center;
 }
+.banner-title{
+  width: 300px;
+}
+.title{
+  text-align: center;
+  height: 100px;
+  margin-top: 50px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 20px;
+} 
 .register-form form{
     display: flex;
     flex-direction: column;

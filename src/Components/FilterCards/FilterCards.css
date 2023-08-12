@@ -6,12 +6,7 @@
     height: 500px;   /* Set a fixed height for the container */
     overflow-y: scroll;  /* Add a scrollbar for overflow content */
 }
-.card-container-user{
-    height: 260px !important;
-}
-.card-container-manager{
-    height: 310px !important;
-}
+
 .card {
     border: 1px solid gray;
     border-radius: 5px;
