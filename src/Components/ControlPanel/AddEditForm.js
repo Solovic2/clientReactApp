@@ -2,8 +2,12 @@ import React from 'react'
 
 const AddEditForm = (props) => {
     return (
-        <>
+        <>  
+            <div className='form-title'>
+                <h2>{props.title}</h2>
+            </div>
             <div className="form-container">
+                
                 <form onSubmit={props.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="username">إسم المستخدم :</label>

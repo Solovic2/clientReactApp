@@ -26,3 +26,6 @@ npm i react-redux
 npm install react-cookie
 
 npm install --save @fortawesome/fontawesome-free
+
+npm install js-cookie
+npm install jwt-decode

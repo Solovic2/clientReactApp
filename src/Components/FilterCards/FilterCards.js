@@ -1,18 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
-import { useCookies } from 'react-cookie';
 import AudioPlayer from "../Audio/AudioPlayer";
-function FilterCards({ data, setFilterData, setValues, notify }) {
+function FilterCards({ user, data, setFilterData, setValues, notify }) {
   const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
   const [playingCard, setPlayingCard] = useState(null);
   const [showForm, setShowForm] = useState({});
   const [cardClass, setCardClass] = useState('card')
-  const [{ user }] = useCookies(['user']);
   
   useEffect(() => {
     if (user) {
-      setCardClass(user.data.role === "Admin" ? "card card-admin" : user.data.role === "Manager" ? "card card-manager" : user.data.role === "User" ? "card card-user" : "card");
+      setCardClass(user.role === "Admin" ? "card card-admin" : user.role === "Manager" ? "card card-manager" : user.role === "User" ? "card card-user" : "card");
     } else {
       setCardClass('card')
     }
@@ -190,7 +188,7 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
               </label>
             </div>
             <div className="audio-element">{audioElement}</div>
-            {user && (user.data.role === "Admin") && (
+            {user && (user.role === "Admin") && (
               <div className="deleteBtn">
                 <button
                   className="btn btn-danger"
@@ -201,7 +199,7 @@ function FilterCards({ data, setFilterData, setValues, notify }) {
               </div>
             )}
 
-            {user && (user.data.role === "Admin" || user.data.role === "Manager") && (
+            {user && (user.role === "Admin" || user.role === "Manager") && (
               <>
                 {
                 element.info !== null && element.info !== "" && (

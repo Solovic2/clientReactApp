@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userSlice from './userSlice';
+import monthYearSlice from './monthYearSlice';
 const enhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 
 export const store = configureStore({
   reducer: {
-    monthYear: userSlice
+    monthYear: monthYearSlice
   },
 
 }, enhancers())

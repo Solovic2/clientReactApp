@@ -4,21 +4,36 @@ import { useNavigate } from 'react-router-dom';
 import Table from '../../Components/ControlPanel/Table';
 import AddUser from './AddUser';
 import AdminPanel from '../../Components/ControlPanel/AdminPanel';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 const ControlPanel = () => {
-  const [{ user }] = useCookies(['user']);
   const [users, setUsers] = useState([])
+  const [user, setUser] = useState(null)
   const navigate = useNavigate();
+  const token = Cookies.get('user')
+  // Check Authorization
   useEffect(() => {
-    if (!user || user.data.role !== "Admin") {
-      // Redirect to login page if user data is not available
+    if (token) {
+      try {
+        const decodedToken = jwt_decode(token);
+        setUser(decodedToken);
+      } catch (error) {
+        console.log('Invalid token:', error);
+      }
+    } else {
       navigate("/");
       return;
     }
+}, [token, navigate])
 
-  }, [user, navigate])
-
-
+useEffect(() => {
+  if(user){
+    if( user.role !== 'Admin' ){
+      navigate("/");
+      return;
+    }
+  }
+}, [user, navigate]);
   useEffect(() => {
 
     fetch("http://localhost:9000/admin/users", {
@@ -37,14 +52,16 @@ const ControlPanel = () => {
   }, [navigate])
 
   const handleClick = () => {
-    navigate('/control-panel-admin/add')
+    navigate('/control-panel-admin/add',{
+      state : {user : user}
+    })
   }
   const handleBack = () => {
       navigate('/')
   }
   const handleEdit = (userID) => {
     navigate(`/control-panel-admin/edit/${userID}`, {
-      state: { user: user.user }
+      state: { user: user }
     })
   }
 
@@ -73,9 +90,10 @@ const ControlPanel = () => {
   }
 
 
-  if (!user || user.data.role !== "Admin") {
+  if (!user || (user && user.role !== "Admin") ) {
     return null;
   }
+  
   return (
     <>
       <div className='container'>

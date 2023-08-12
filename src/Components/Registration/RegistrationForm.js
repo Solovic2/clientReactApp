@@ -7,7 +7,7 @@ function RegistrationForm() {
   const [password, setPassword] = useState("");
   const [sameUsername, setSameUserName] = useState(false);
   const navigate = useNavigate();
-  const [ cookie , setCookie] = useCookies(["user"]);
+  const [ cookie] = useCookies(["user"]);
   useEffect(() => {
     if (cookie.user) {
       navigate("/");
@@ -38,7 +38,6 @@ function RegistrationForm() {
     } else {
       setSameUserName(false);
       const userData = await response.json();
-      setCookie("user", JSON.stringify(userData));
       navigate("/", {
         state: { user: userData },
       });

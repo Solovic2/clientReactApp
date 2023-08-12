@@ -1,8 +1,11 @@
+.form-title{
+  text-align: center;
+  margin: 10px 0px;
+}
 .form-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     direction: rtl;
   }
   

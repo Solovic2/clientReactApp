@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-
 function LoginForm() {
   const navigate = useNavigate();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [ cookie , setCookie] = useCookies(["user"]);
+  const [ cookie] = useCookies(["user"]);
   useEffect(() => {
     if (cookie.user) {
       navigate("/");
@@ -39,7 +38,6 @@ function LoginForm() {
       setError(errorData.error);
     } else {
       const userData = await response.json();
-      setCookie("user", JSON.stringify(userData));
       navigate("/", {
         state: { user: userData },
       });

@@ -4,24 +4,29 @@ import FilterBox from '../../Components/FilterBox/FilterBox';
 import NotificationBar from '../../Components/NotificationBar/NotificationBar';
 import { useNavigate } from 'react-router-dom';
 import NavBarList from '../../Components/NavBar/NavBarList';
-import { useCookies } from 'react-cookie';
-
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 function Home() {
   const [notifyAddDelete, setNotifyAddDelete] = useState(0);
   const [notifyCountFlag, setNotifyCountFlag] = useState(0);
   const [prevNotifyAddDelete, setPrevNotifyAddDelete] = useState(null);
-
   const navigate = useNavigate();
-  const [{user}] = useCookies(['user']);
-
+  const token = Cookies.get('user')
+  const [user, setUser] = useState(null)
   // Check Authorization
   useEffect(() => {
-    if (!user) {
-      // Redirect to login page if user data is not available
+    if (token) {
+      try {
+        const decodedToken = jwt_decode(token);
+        setUser(decodedToken);
+      } catch (error) {
+        console.log('Invalid token:', error);
+      }
+    } else {
       navigate("/login");
       return;
     }
-  }, [user, navigate])
+  }, [token, navigate])
   
 
   // Notify when delete and added at same time 
@@ -46,13 +51,15 @@ function Home() {
   if (user == null) {
     return null; // Don't render anything if the user is not logged in
   }
-
+  const handleClick = () =>{
+    navigate("/control-panel-admin")
+  }
   return (
     <>
       <div className='container'>
-        <NavBarList/>
+        <NavBarList user = {user} handleClick={handleClick}/>
         <NotificationBar flag = {notifyAddDelete} notifyFlag = {notifyCountFlag}/>
-        <FilterBox notify = {notify}/>
+        <FilterBox user = {user} notify = {notify}/>
       </div>
     </>
   );

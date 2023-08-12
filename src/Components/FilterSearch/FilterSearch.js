@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./FilterSearch.css"
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { setMonthYear } from '../../Redux/userSlice';
+import { setMonthYear } from '../../Redux/monthYearSlice';
 const FilterSearch = (props) => {
 
   const [isToggled, setIsToggled] = useState(false);

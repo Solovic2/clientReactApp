@@ -7,7 +7,7 @@ import FilterCards from '../FilterCards/FilterCards';
 import {useSelector } from 'react-redux';
 
 
-const FilterBox = ({notify}) => {
+const FilterBox = ({user, notify}) => {
   const {monthYear} = useSelector((state) => state.monthYear);
   const navigate = useNavigate()
   const [values, setValues] = useState([]);
@@ -100,7 +100,7 @@ const FilterBox = ({notify}) => {
     <>
       <div className="container">
         <FilterSearch yearSelector={yearSelector} handleChange={handleChange} setValues={setValues} setFilterData={setFilterData} />
-        <FilterCards data={filterData} setFilterData={setFilterData} setValues={setValues} notify = {notify} />
+        <FilterCards user = {user} data={filterData} setFilterData={setFilterData} setValues={setValues} notify = {notify} />
       </div>
     </>
   )
