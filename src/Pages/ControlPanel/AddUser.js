@@ -5,7 +5,6 @@ import Logout from "../../Components/Login/Logout";
 const AddUser = (props) => {
   return (
     <>
-      {/* <div className="navbar-buttons"> */}
         <ul className="NavList">
           <li>
             <Logout />
@@ -39,7 +38,6 @@ const AddUser = (props) => {
             />
           </li>
         </ul>
-      {/* </div> */}
     </>
   );
 };
