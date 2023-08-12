@@ -8,7 +8,6 @@ const AudioPlayer = ({src, playingCard, setPlayingCard}) => {
   } 
 
 const onPlay = () => {
-  console.log(playingCard);
   if(audio.current && playingCard !== null && playingCard !== audio.current){
     playingCard.pause();
     setPlayingCard(audio.current);
