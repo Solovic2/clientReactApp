@@ -1,5 +1,4 @@
 import React from "react";
-import "./AddUser.css";
 import Button from "../../Components/ControlPanel/Button";
 import Logout from "../../Components/Login/Logout";
 
