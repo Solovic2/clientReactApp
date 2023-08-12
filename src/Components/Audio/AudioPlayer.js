@@ -6,20 +6,27 @@ const AudioPlayer = ({src, playingCard, setPlayingCard}) => {
   if (!audio.current) {
     audio.current = new Audio(src);
   } 
-  const play = () => {
-    if(playingCard) {
-      playingCard.pause(); 
-    }
-    
-    audio.current.play(); 
+
+const onPlay = () => {
+  console.log(playingCard);
+  if(audio.current && playingCard !== null && playingCard !== audio.current){
+    playingCard.pause();
+    setPlayingCard(audio.current);
+  }else{
     setPlayingCard(audio.current);
   }
 
-  return (
-    <div>
-      <audio ref={audio} controls src={src} onPlay={play} />
-    </div>
-  );
+}
+
+
+return (
+  <audio
+    ref={audio}
+    controls
+    src={src}
+    onPlay={onPlay}  
+  />
+)
 }
 
 export default React.memo(AudioPlayer);
