@@ -100,11 +100,9 @@ function FilterCards({ user, data, setFilterData, setValues, notify }) {
     event.preventDefault(); // prevent default form submission behavior
     const inputValue = event.target.elements.infoInput.value;
     if (inputValue !== "") {
-      console.log("Form submitted with value:", inputValue);
       // do something with the input value, like submit it to a server
       // Update
       try {
-        console.log(inputValue);
         const response = await fetch(
           `http://localhost:9000/update-complain/${encodeURI(path)}`,
           {

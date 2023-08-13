@@ -1,39 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import "./FilterSearch.css"
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { setMonthYear } from '../../Redux/monthYearSlice';
 const FilterSearch = (props) => {
-
   const [isToggled, setIsToggled] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(process.env.REACT_APP_DEFAULT_YEAR);
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [monthsLoaded, setMonthsLoaded] = useState(false);
-  const [monthSelector, setMonthSelector] = useState([]);
   const navigate = useNavigate()
   const { setValues, setFilterData } = props;
-  const dispatch = useDispatch();
+  const folderPath = process.env.FOLDER_PATH
 
   useEffect(() => {
-    getMonths(selectedYear);
-    setMonthsLoaded(true)
-
-  }, [selectedYear]);
-
-  useEffect(() => {
-    if (monthsLoaded && monthSelector && monthSelector[0]) {
-      setSelectedMonth(monthSelector[0]);
-    } else if (monthsLoaded && monthSelector.length === 0) {
-      setSelectedMonth([]);
-    }
-  }, [monthsLoaded, monthSelector])
-
-  useEffect(() => {
-    if (selectedMonth.length > 0 && selectedMonth.length> 0) {
-      const yearMonthPath = selectedYear + "\\" + selectedMonth;
-      const encodedPath = encodeURI(yearMonthPath);
-      dispatch(setMonthYear(yearMonthPath))
-      fetch("http://localhost:9000/" + encodedPath, {
+      fetch("http://localhost:9000/", {
         credentials: 'include'
       })
         .then(async response => {
@@ -57,36 +32,9 @@ const FilterSearch = (props) => {
           console.error(error);
           navigate("/login");
         });
-    }else{
-      setValues([]);
-      setFilterData([]);
-    }
+  
+  }, [navigate, folderPath]);
 
-  }, [selectedMonth, navigate]);
-
-  const getMonths = (month) => {
-    fetch(`http://localhost:9000/year-month-folders/${month}`, {
-      credentials: 'include'
-    })
-      .then(response => {
-        if (response.ok) {
-          // The response status is in the 2xx range, so the request was successful
-          return response.json();
-        } else if (response.status === 401) {
-          // The user is not authenticated, display error message
-          // throw new Error('You are not authenticated');
-          throw new Error('You are not authenticated');
-        } else {
-          // The response status is not in the 2xx or 401 range, display error message
-          throw new Error('An error occurred while fetching data');
-        }
-      })
-      .then(data => setMonthSelector(data))
-      .catch(error => {
-        // Display the error message
-        console.error(error.message);
-      })
-  }
   const handleClick = async (event) => {
     event.preventDefault();
     setIsToggled(!isToggled);
@@ -104,9 +52,7 @@ const FilterSearch = (props) => {
           setFilterData(data);
         });
     } else {
-      const yearMonthPath = selectedYear + "\\" + selectedMonth;
-      const encodedPath = encodeURI(yearMonthPath);
-      fetch("http://localhost:9000/" + encodedPath, {
+      fetch("http://localhost:9000/", {
         credentials: 'include'
       }).then(async response => {
         if (!response.ok) {
@@ -131,51 +77,11 @@ const FilterSearch = (props) => {
     }
   };
 
-  const getMonthFolders = (event) => {
-    setSelectedYear(event.target.value)
-
-  }
-  const getData = (event) => {
-    setSelectedMonth(event.target.value);
-  }
-
   return (
     <>
       <div className='searchBar'>
-
         <button className='btn btn-info toggleBtn' onClick={handleClick}>{isToggled ? "رجوع" : "شكاوي اليوم"}</button>
         <input className="search" type="search" placeholder="Search" onChange={props.handleChange} />
-
-        <div className="selector">
-          <select onChange={getData}>
-
-            {monthSelector?.map(element => {
-
-              return (
-                <option
-                  key={`month-${element}`}
-                  value={element}
-                >{element}</option>
-              )
-
-            })}
-          </select>
-        </div>
-        <div className="selector">
-          <select onChange={getMonthFolders}>
-
-            {props.yearSelector.map(element => {
-
-              return (
-                <option
-                  key={`year-${element}`}
-                  value={element}
-                >{element}</option>
-              )
-
-            })}
-          </select>
-        </div>
       </div>
     </>
   )

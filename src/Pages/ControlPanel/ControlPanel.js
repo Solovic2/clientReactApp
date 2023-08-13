@@ -69,7 +69,7 @@ useEffect(() => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        "http://localhost:9000/admin-delete/" + id,
+        "http://localhost:9000/admin/delete/" + id,
         {
           method: "DELETE",
           credentials: 'include',

@@ -79,7 +79,6 @@ const EditUser = () => {
         const errorData = await response.json();
         setError(errorData.error);
       } else {
-        console.log(user);
         navigate("/control-panel-admin/", {
           state: { user: user },
         });
