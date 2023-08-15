@@ -1,7 +1,7 @@
 .searchBar {
     display: flex;
     height: 40px;
-    margin-top: 40px;
+    margin-top: 10px;
     justify-content: center;
   }
   .selector {
@@ -62,7 +62,7 @@
 
 @media screen and (min-width: 320px ) and (max-width: 480px) {
   .search{
-    width: 100px;
+    width: 160px;
   }
   .toggleBtn{
     font-size: 13px !important;

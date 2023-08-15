@@ -97,7 +97,6 @@ const EditUser = () => {
   };
   return (
     <>
-      <div className="container">
         <div className="navbar-buttons">
           <ul className="NavList">
             <li>
@@ -144,7 +143,6 @@ const EditUser = () => {
           handleSubmit={handleSubmit}
           error={error}
         />
-      </div>
     </>
   );
 };

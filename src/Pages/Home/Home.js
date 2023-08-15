@@ -56,7 +56,7 @@ function Home() {
   }
   return (
     <>
-      <div className='container'>
+      <div className='container-body'>
         <NavBarList user = {user} handleClick={handleClick}/>
         <NotificationBar flag = {notifyAddDelete} notifyFlag = {notifyCountFlag}/>
         <FilterBox user = {user} notify = {notify}/>

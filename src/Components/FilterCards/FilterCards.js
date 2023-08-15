@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./FilterCards.css";
 import AudioPlayer from "../Audio/AudioPlayer";
 function FilterCards({ user, data, setFilterData, setValues, notify }) {
-  const cardContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
   const [playingCard, setPlayingCard] = useState(null);
   const [showForm, setShowForm] = useState({});
@@ -18,28 +17,6 @@ function FilterCards({ user, data, setFilterData, setValues, notify }) {
   }, [user])
 
 
-
-
-  // Show ScrollBar When There Are Elements Fit The Height Of The ScrollBar Or Hide It When No Element Fit The Height
-  useEffect(() => {
-    const cardContainer = cardContainerRef.current;
-    const firstChild = cardContainer.firstChild;
-    function toggleScrollbar() {
-      if(firstChild){
-        if (cardContainer.scrollHeight > (firstChild.scrollHeight + 157))  // 157 is the difference between the card and cardContainer
-        {
-          cardContainer.classList.remove("hide-scrollbar");
-        } else {
-          cardContainer.classList.add("hide-scrollbar");
-        }
-      } 
-    }
-    window.addEventListener("resize", toggleScrollbar);
-    toggleScrollbar();
-    return () => {
-      window.removeEventListener("resize", toggleScrollbar);
-    };
-  }, [data]);
   // Show ScrollBar When There Are Elements Fit The Width Of The ScrollBar Or Hide It When No Element Fit The Width
   useEffect(() => {
     const infoContainer = infoContainerRef.current;
@@ -145,7 +122,7 @@ function FilterCards({ user, data, setFilterData, setValues, notify }) {
   };
 
   return (
-    <div className="card-container hide-scrollbar" ref={cardContainerRef}>
+    <div className="card-container hide-scrollbar">
       {data?.map((element, index) => {
         let audioElement = null;
         let fullPath = element.path.split("\\");
@@ -189,7 +166,7 @@ function FilterCards({ user, data, setFilterData, setValues, notify }) {
             {user && (user.role === "Admin") && (
               <div className="deleteBtn">
                 <button
-                  className="btn btn-danger"
+                  className="btn"
                   onClick={() => handleDelete(element.path)}
                 >
                   <i className="fa-solid fa-trash"></i>

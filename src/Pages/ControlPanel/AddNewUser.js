@@ -61,55 +61,55 @@ const AddNewUser = () => {
   };
   return (
     <>
-      <div className="container">
-        <div className="navbar-buttons">
-          <ul className="NavList">
-            <li>
-              <Logout />
-            </li>
-            <li>
-              <Button
-                handleClick={handleBackToHome}
-                className="btn btn-primary"
-                body="العودة للصفحة الرئيسية"
-              />
-            </li>
-            <li>
-              <Button
-                handleClick={handleBackToControlPanel}
-                className="btn btn-primary"
-                body= "العودة للوحة التحكم"
-              />
-            </li>
-            <li className="nav-title">
-              <img
-                src={process.env.PUBLIC_URL + "/title.png"}
-                className="img-responsive"
-                alt="title"
-              />
-            </li>
-            <li className="logo">
-              <img
-                src={process.env.PUBLIC_URL + "/logo.png"}
-                className="img-responsive"
-                alt="logo"
-              />
-            </li>
-          </ul>
-        </div>
-
-        <AddEditForm
-          title = "إضافة مستخدم جديد"
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          role={role}
-          setRole={setRole}
-          handleSubmit={handleSubmit}
-          error={error}
-        />
+      
+      <div className="navbar-buttons">
+        <ul className="NavList">
+          <li>
+            <Logout />
+          </li>
+          <li>
+            <Button
+              handleClick={handleBackToHome}
+              className="btn btn-primary"
+              body="العودة للصفحة الرئيسية"
+            />
+          </li>
+          <li>
+            <Button
+              handleClick={handleBackToControlPanel}
+              className="btn btn-primary"
+              body= "العودة للوحة التحكم"
+            />
+          </li>
+          <li className="nav-title">
+            <img
+              src={process.env.PUBLIC_URL + "/title.png"}
+              className="img-responsive"
+              alt="title"
+            />
+          </li>
+          <li className="logo">
+            <img
+              src={process.env.PUBLIC_URL + "/logo.png"}
+              className="img-responsive"
+              alt="logo"
+            />
+          </li>
+        </ul>
       </div>
+
+      <AddEditForm
+        title = "إضافة مستخدم جديد"
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+        role={role}
+        setRole={setRole}
+        handleSubmit={handleSubmit}
+        error={error}
+      />
+    
     </>
   );
 };

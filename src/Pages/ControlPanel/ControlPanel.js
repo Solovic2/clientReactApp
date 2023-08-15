@@ -96,7 +96,7 @@ useEffect(() => {
   
   return (
     <>
-      <div className='container'>
+      <div className='container-body'>
 
         <AdminPanel>
           <AddUser handleBack = {handleBack} handleClick = {handleClick} />

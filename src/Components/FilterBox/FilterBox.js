@@ -64,10 +64,8 @@ const FilterBox = ({user, notify}) => {
 
   return (
     <>
-      <div className="container">
-        <FilterSearch  handleChange={handleChange} setValues={setValues} setFilterData={setFilterData} />
-        <FilterCards user = {user} data={filterData} setFilterData={setFilterData} setValues={setValues} notify = {notify} />
-      </div>
+      <FilterSearch  handleChange={handleChange} setValues={setValues} setFilterData={setFilterData} />
+      <FilterCards user = {user} data={filterData} setFilterData={setFilterData} setValues={setValues} notify = {notify} />
     </>
   )
 }
